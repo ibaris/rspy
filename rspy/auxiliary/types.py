@@ -5,7 +5,7 @@ Created on 31.03.2019 by Ismail Baris
 from __future__ import division
 import numpy as np
 
-__all__ = ['supported_dtype']
+__all__ = ['valid_dtype']
 __DTYPES__ = [np.short, np.ushort, np.intc, np.uintc, np.int_, np.uint, np.longlong,
               np.ulonglong, np.half, np.float, np.float16, np.single, np.double, np.longdouble, np.csingle,
               np.cdouble,
@@ -14,8 +14,11 @@ __DTYPES__ = [np.short, np.ushort, np.intc, np.uintc, np.int_, np.uint, np.longl
               np.intp,
               np.uintp, np.float32, np.float64, np.complex, np.complex64, np.complex128, float, int, complex]
 
+__UNIT_RAD__ = ['RAD', 'rad', 'radian', 'radians']
+__UNIT_DEG__ = ['DEG', 'deg', 'degree', 'degrees']
 
-def supported_dtype(dtype):
+
+def valid_dtype(dtype):
     """
     Check whether a dtype is supported or not.
 
