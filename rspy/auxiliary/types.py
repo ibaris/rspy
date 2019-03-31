@@ -7,13 +7,16 @@ import numpy as np
 
 __all__ = ['valid_dtype', 'valid_angle_deg', 'valid_angle_rad', 'check_angle_unit']
 
-__DTYPES__ = [np.short, np.ushort, np.intc, np.uintc, np.int_, np.uint, np.longlong,
-              np.ulonglong, np.half, np.float, np.float16, np.single, np.double, np.longdouble, np.csingle,
-              np.cdouble,
-              np.clongdouble, np.int, np.int8, np.int16, np.int32, np.int64, np.uint8, np.uint16, np.uint32,
-              np.uint64,
-              np.intp,
-              np.uintp, np.float32, np.float64, np.complex, np.complex64, np.complex128, float, int, complex]
+__DTYPES__ = [np.short, np.ushort,
+              np.longlong,
+              np.ulonglong, np.half,
+              np.float, np.float16,
+              np.single,
+              np.double, np.longdouble, np.csingle,
+              np.cdouble, np.clongdouble,
+              np.int, np.int16, np.int32, np.int64, np.intc,
+              np.float32, np.float64, np.complex, np.complex64, np.complex128,
+              float, int, complex]
 
 __UNIT_RAD__ = ['RAD', 'rad', 'radian', 'radians']
 __UNIT_DEG__ = ['DEG', 'deg', 'degree', 'degrees']
