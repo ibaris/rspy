@@ -88,11 +88,6 @@ class TestSetter:
                 assert np.allclose(radgeom[j], raditems_geom[j][i])
                 assert np.allclose(degdgeom[j], degitems_geom[j][i])
 
-        property_list_values = [len(iza), (7, len(iza)), (1 / np.cos(iza) + 1 / np.cos(vza)),
-                                (1 / np.cos(izaDeg) + 1 / np.cos(vzaDeg)),
-                                np.cos(iza), np.cos(vza), np.abs((raa % (2. * np.pi))), random_dtype2, nbar, nbarDeg,
-                                False]
-
         ang.dtype = random_dtype2
         assert ang.array.dtype == random_dtype2
         assert ang.arrayDeg.dtype == random_dtype2
