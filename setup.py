@@ -21,8 +21,8 @@ except ImportError:
     from distutils.core import setup
     from distutils.extension import Extension
 
-import numpy
 from setuptools import find_packages
+import numpy
 
 
 def get_version():
@@ -35,7 +35,8 @@ def get_version():
 
 
 def get_packages():
-    return find_packages(exclude=['docs']),
+    find_packages(exclude=['docs']),
+    return find_packages()
 
 
 # with open('requirements.txt') as f:
