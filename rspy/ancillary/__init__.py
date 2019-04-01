@@ -1,1 +1,2 @@
-from array_operations import *
+from array_manupulation import *
+from trigonometry import *
