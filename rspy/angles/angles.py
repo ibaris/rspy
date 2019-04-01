@@ -516,6 +516,30 @@ class Angles(object):
         """
         return self.__dtype
 
+    @dtype.setter
+    def dtype(self, value):
+        """
+        Define a new data type.
+
+        Parameters
+        ----------
+        value : numpy.dtype
+
+        Returns
+        -------
+        None
+        """
+        if valid_dtype(value):
+            pass
+        else:
+            raise ValueError("Parameter dtype must be {0}. "
+                             "The actual dtype is {1}".format(str(__DTYPES__), str(value)))
+
+        self.__dtype = value
+
+        self.__array = self.__change_dtype(self.__array, self.__nbar[0], self.__dtype)
+        self.__arrayDeg = self.__change_dtype(self.__arrayDeg, self.__nbarDeg[0], self.__dtype)
+
     @property
     def nbar(self):
         """
@@ -525,8 +549,29 @@ class Angles(object):
         -------
         nbar : float
         """
-        # return Quantity(self.__nbar, unit=util.rad, name='Normalization Angle', constant=True)
         return self.__nbar
+
+    @nbar.setter
+    def nbar(self, value):
+        """
+        Define a new parameter for nbar.
+        After the definition is done, the angles are normalized again as soon as the parameter 'normalize' is True.
+
+        Parameters
+        ----------
+        value : float
+            New nbar value in [RAD].
+
+        Returns
+        -------
+        None
+        """
+        self.__nbar = np.asanyarray(value).flatten()
+        self.__nbarDeg = r2d(self.__nbar)
+
+        if self.normalize:
+            self.__array[0][-1] = self.__nbar
+            self.__arrayDeg[0][-1] = self.__nbarDeg
 
     @property
     def nbarDeg(self):
@@ -539,6 +584,28 @@ class Angles(object):
         """
         return self.__nbarDeg
 
+    @nbarDeg.setter
+    def nbarDeg(self, value):
+        """
+        Define a new parameter for nbar.
+        After the definition is done, the angles are normalized again as soon as the parameter 'normalize' is True.
+
+        Parameters
+        ----------
+        value : float
+            New nbar value in [RAD].
+
+        Returns
+        -------
+        None
+        """
+        self.__nbarDeg = np.asanyarray(value).flatten()
+        self.__nbar = d2r(self.__nbarDeg)
+
+        if self.normalize:
+            self.__array[0][-1] = self.__nbar
+            self.__arrayDeg[0][-1] = self.__nbarDeg
+
     @property
     def normalize(self):
         """
@@ -550,10 +617,93 @@ class Angles(object):
         """
         return self.__normalize
 
+    @normalize.setter
+    def normalize(self, value):
+        """
+        Define a new parameter for normalize.
+        If value is True, the angles are normalized again as soon as the parameter 'normalize' is False.
+        Otherwise (value is False), the angles are de-normalized again as soon as the parameter 'normalize' is True.
+
+        Parameters
+        ----------
+        value : bool
+
+        Returns
+        -------
+        None
+        """
+
+        if isinstance(value, bool):
+            pass
+        else:
+            raise TypeError("Only bool type can be assigned.")
+
+        if value:
+            if self.normalize:
+                pass
+            else:
+                self.__normalize = value
+                self.__array = self.__normalize_angles(self.__array, self.__nbar[0])
+                self.__arrayDeg = self.__normalize_angles(self.__arrayDeg, self.__nbarDeg[0])
+
+        else:
+            if not self.normalize:
+                pass
+            else:
+                self.__normalize = value
+                self.__array = self.__denormalize_angles(self.__array)
+                self.__arrayDeg = self.__denormalize_angles(self.__arrayDeg)
+
+    # --------------------------------------------------------------------------------------------------------
+    # Callable Methods
+    # --------------------------------------------------------------------------------------------------------
+    def align_with(self, value):
+        """
+        Align all angles with another array.
+
+        Parameters
+        ----------
+        value : array_like
+
+        Returns
+        -------
+        value : array_like
+            Align value.
+
+        Note
+        ----
+        If len(value) > Angles.shape[1] then the angles inside Angles class will be aligned and it has no effect on
+        value. If len(value) < Angles.shape[1] the output of value will be have the same len as Angles and it has no
+        effect on the angles within the Angles class.
+        """
+        # RAD Angles
+        data = [item for item in self.__array]
+
+        if isinstance(value, (tuple, list)):
+            data = tuple(value) + tuple(data, )
+        else:
+            data = (value,) + tuple(data, )
+
+        data = align_all(data)
+
+        # DEG Angles
+        dataDeg = [item for item in self.__arrayDeg]
+
+        if isinstance(value, (tuple, list)):
+            dataDeg = tuple(value) + tuple(dataDeg, )
+        else:
+            dataDeg = (value,) + tuple(dataDeg, )
+
+        dataDeg = align_all(dataDeg)
+
+        self.__array = np.asarray(data[-7:])
+        self.__arrayDeg = np.asarray(dataDeg[-7:])
+
+        return data[0:-7]
+
     # ------------------------------------------------------------------------------------------------------------------
     # Private Methods
     # ------------------------------------------------------------------------------------------------------------------
-    # Private Methods for Normalization and Conversion -----------------------------------------------------------------
     def __normalize_angles(self, array, nbar):
         if self.normalize:
             self.__norm = np.array([[nbar], [0], [0], [0], [0], [0], [0]])
@@ -561,3 +711,14 @@ class Angles(object):
 
         else:
             return array
+
+    def __denormalize_angles(self, array):
+        if not self.normalize:
+            return np.delete(array, np.s_[-1:], axis=1)
+
+        else:
+            return array
+
+    def __change_dtype(self, array, nbar, dtype):
+        array = array.astype(dtype)
+        return self.__normalize_angles(array, nbar)
