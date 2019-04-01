@@ -3,10 +3,13 @@
 Created on  by Ismail Baris
 """
 from __future__ import division
-from rspy.constants import pi
+
 from numpy import cos, tan
 
+from rspy.constants import pi
+
 __all__ = ['d2r', 'r2d', 'sec', 'cot']
+
 
 def d2r(angle):
     """

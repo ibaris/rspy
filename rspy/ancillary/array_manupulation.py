@@ -3,7 +3,8 @@
 Created on 31.12.2019 by Ismail Baris
 """
 from __future__ import division
-from numpy import cos, tan, pi, asarray, pad, max, zeros, zeros_like
+
+from numpy import asarray, pad, max, zeros_like
 
 __all__ = ['align_all', 'max_length', 'asarrays', 'get_dtypes', 'same_len',
            'same_shape', 'zeros_likes']
