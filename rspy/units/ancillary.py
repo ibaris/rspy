@@ -26,7 +26,7 @@ class Units(dict):
     with attribute accessors, one can see which attributes are available
     using the `keys()` method. adar Backscatter values of multi scattering contribution of surface and volume
     """
-    # Units = Units()
+
     Frequency = Frequency()
     Length = Length()
     Energy = Energy()
@@ -79,8 +79,8 @@ class Units(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())

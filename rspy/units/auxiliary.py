@@ -47,8 +47,8 @@ class Frequency(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -83,8 +83,8 @@ class Length(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -119,8 +119,8 @@ class Energy(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -155,8 +155,8 @@ class Power(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -191,8 +191,8 @@ class Time(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -227,8 +227,8 @@ class Temperature(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -263,8 +263,8 @@ class Mass(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -299,8 +299,8 @@ class Current(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -335,8 +335,8 @@ class Other(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -371,8 +371,8 @@ class Volume(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -407,8 +407,8 @@ class Area(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
@@ -443,8 +443,8 @@ class Angle(dict):
             m = max(map(len, list(self.keys()))) + 1
             return '\n'.join([k.rjust(m) + ': ' + repr(v)
                               for k, v in sorted(self.items())])
-        else:
-            return self.__class__.__name__ + "()"
+
+        return self.__class__.__name__ + "()"
 
     def __dir__(self):
         return list(self.keys())
