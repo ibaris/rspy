@@ -102,7 +102,7 @@ class TestOther:
         arrays = asarrays(lists)
 
         for item in arrays:
-            assert type(item) == np.ndarray
+            assert isinstance(item, np.ndarray)
 
     def test_same_len_shape_error(self):
         assert not same_len(('aa', 'bb', 'pipi', 'kaka', np.dtype))

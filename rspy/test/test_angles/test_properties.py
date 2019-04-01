@@ -74,7 +74,7 @@ class TestProperties:
             radgeom = ang.geometries[i]
             degdgeom = ang.geometriesDeg[i]
 
-            for j in range(len(radgeom)):
+            for j, _ in enumerate(radgeom):
                 assert np.allclose(radgeom[j], raditems_geom[j][i])
                 assert np.allclose(degdgeom[j], degitems_geom[j][i])
 
@@ -109,6 +109,6 @@ class TestProperties:
             radgeom = ang.geometries[i]
             degdgeom = ang.geometriesDeg[i]
 
-            for j in range(len(radgeom)):
+            for j, _ in enumerate(radgeom):
                 assert np.allclose(radgeom[j], raditems_geom[j][i])
                 assert np.allclose(degdgeom[j], degitems_geom[j][i])
