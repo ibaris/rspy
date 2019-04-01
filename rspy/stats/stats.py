@@ -3,8 +3,9 @@
 Created on  by Ismail Baris
 """
 from __future__ import division
-from scipy.stats import pearsonr
+
 from numpy import sqrt
+from scipy.stats import pearsonr
 
 __all__ = ['pearson', 'rmsd', 'urmsd', 'rmse', 'urmse', 'bias']
 
