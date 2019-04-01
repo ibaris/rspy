@@ -46,12 +46,12 @@ class TestAnglesUnits:
         __white_list__ = __UNIT_DEG__
 
         for item in __white_list__:
-            check_angle_unit(item)
+            assert check_angle_unit(item)
 
         __white_list__ = __UNIT_RAD__
 
         for item in __white_list__:
-            check_angle_unit(item)
+            assert check_angle_unit(item)
 
         __bs_list__ = ['pipidegipipi', 'mumuradimumu', 'radis', 'RadFS', 'DEGGS']
 

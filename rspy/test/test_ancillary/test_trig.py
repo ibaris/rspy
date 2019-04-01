@@ -3,7 +3,7 @@
 Created on  by Ismail Baris
 """
 from __future__ import division
-from rspy.ancillary.trig import *
+from rspy.ancillary.trigonometry import *
 import numpy as np
 
 n = 100
