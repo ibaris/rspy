@@ -22,6 +22,5 @@ install:
 script:
   - coverage run --source respy/ -m pytest
 
-
 #after_success:
 #  - coveralls
