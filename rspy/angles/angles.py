@@ -709,15 +709,13 @@ class Angles(object):
             self.__norm = np.array([[nbar], [0], [0], [0], [0], [0], [0]])
             return np.append(array, self.__norm, axis=1)
 
-        else:
-            return array
+        return array
 
     def __denormalize_angles(self, array):
         if not self.normalize:
             return np.delete(array, np.s_[-1:], axis=1)
 
-        else:
-            return array
+        return array
 
     def __change_dtype(self, array, nbar, dtype):
         array = array.astype(dtype)
