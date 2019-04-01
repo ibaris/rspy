@@ -4,7 +4,8 @@ Created on 31.12.2019 by Ismail Baris
 """
 from __future__ import division
 
-from numpy import asarray, pad, max, zeros_like
+from numpy import asarray, pad, zeros_like
+from numpy import max as npmax
 
 __all__ = ['align_all', 'max_length', 'asarrays', 'get_dtypes', 'same_len',
            'same_shape', 'zeros_likes']
@@ -42,10 +43,9 @@ def align_all(data, constant_values='default', dtype=None):
 
             return arrays
 
-        else:
-            return asarray(
-                [pad(item, (0, max_len - len(item)), 'constant', constant_values=item[-1]) for item in data],
-                dtype=dtype)
+        return asarray(
+            [pad(item, (0, max_len - len(item)), 'constant', constant_values=item[-1]) for item in data],
+            dtype=dtype)
     else:
         if dtype is None:
             dtypes = get_dtypes(data)
@@ -57,10 +57,9 @@ def align_all(data, constant_values='default', dtype=None):
 
             return arrays
 
-        else:
-            return asarray(
-                [pad(item, (0, max_len - len(item)), 'constant', constant_values=constant_values) for item in data],
-                dtype=dtype)
+        return asarray(
+            [pad(item, (0, max_len - len(item)), 'constant', constant_values=constant_values) for item in data],
+            dtype=dtype)
 
 
 def max_length(data):
@@ -76,7 +75,7 @@ def max_length(data):
     -------
     out : int
     """
-    return max([len(item) for item in data])
+    return npmax([len(item) for item in data])
 
 
 def asarrays(data, dtype=None):
@@ -97,8 +96,8 @@ def asarrays(data, dtype=None):
     """
     if dtype is None:
         return [asarray(item).flatten() for item in data]
-    else:
-        return [asarray(item).flatten().astype(dtype) for item in data]
+
+    return [asarray(item).flatten().astype(dtype) for item in data]
 
 
 def get_dtypes(data):
