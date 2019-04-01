@@ -5,7 +5,7 @@ Created on 01.04.2019 by Ismail Baris
 from __future__ import division
 
 import numpy as np
-from respy import Units
+from rspy import Units
 
 from rspy.units.auxiliary import __NONE_TYPE_UNITS__, Zero
 from rspy.units.utility import *
