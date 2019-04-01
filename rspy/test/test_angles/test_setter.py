@@ -96,10 +96,10 @@ class TestSetter:
         ang.dtype = random_dtype2
 
         for i, item in enumerate(degitems):
-            assert np.allclose(ang[degitems_key[i]], item)
+            assert np.allclose(ang[degitems_key[i]], item.astype(random_dtype2))
 
         for i, item in enumerate(raditems):
-            assert np.allclose(ang[raditems_key[i]], item)
+            assert np.allclose(ang[raditems_key[i]], item.astype(random_dtype2))
 
         for i, item in enumerate(property_list_values):
             try:
