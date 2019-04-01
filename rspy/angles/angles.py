@@ -7,7 +7,7 @@ from __future__ import division
 import sys
 
 import numpy as np
-from respy.constants import pi
+from rspy.constants import pi
 
 from rspy.ancillary import same_len, r2d, d2r, sec, align_all, asarrays
 from rspy.auxiliary import valid_angle_deg, valid_angle_rad, check_angle_unit, valid_dtype
