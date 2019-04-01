@@ -9,15 +9,15 @@ import numpy as np
 from rspy import Angles
 from rspy.auxiliary.types import __DTYPES__
 
-n = np.random.randint(1, 101)
-n2 = np.random.randint(1, 101)
-n3 = np.random.randint(1, 101)
+n = np.random.randint(10, 101)
+n2 = np.random.randint(10, 101)
+n3 = np.random.randint(10, 101)
 
 while n2 < n:
-    n2 = np.random.randint(1, 101)
+    n2 = np.random.randint(10, 101)
 
 while n < n3:
-    n3 = np.random.randint(1, 101)
+    n3 = np.random.randint(10, 101)
 
 random_dtype = np.random.choice(__DTYPES__, 1)[0]
 random_array = np.random.uniform(1, np.pi / 2, n2)
