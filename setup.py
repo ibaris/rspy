@@ -21,8 +21,8 @@ except ImportError:
     from distutils.core import setup
     from distutils.extension import Extension
 
-from setuptools import find_packages
 import numpy
+from setuptools import find_packages
 
 
 def get_version():
