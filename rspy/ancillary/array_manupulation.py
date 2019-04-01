@@ -156,7 +156,7 @@ def same_shape(data):
     """
     try:
         return all(item.shape == data[0].shape for item in data)
-    except TypeError:
+    except (TypeError, AttributeError):
         return False
 
 
