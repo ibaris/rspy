@@ -3,10 +3,12 @@
 Created on  by Ismail Baris
 """
 from __future__ import division
-from rspy.auxiliary import *
-from rspy.auxiliary.types import __DTYPES__, __UNIT_DEG__, __UNIT_RAD__
+
 import numpy as np
 import pytest
+
+from rspy.auxiliary import *
+from rspy.auxiliary.types import __DTYPES__, __UNIT_DEG__, __UNIT_RAD__
 
 
 class TestDtypes:

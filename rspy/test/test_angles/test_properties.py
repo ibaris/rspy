@@ -1,23 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Created on  by Ismail Baris
+Created on 01.04.2019 by Ismail Baris
 """
 from __future__ import division
-from rspy import Angles, same_len
+
 import numpy as np
-import pytest
+
+from rspy import Angles
 from rspy.auxiliary.types import __DTYPES__
 
 n = 100
 
-__angle_dtypes = [np.float, np.double]
+random_dtype = np.random.choice(__DTYPES__, 1)[0]
 
-choise = False
-while choise is False:
-    random_dtype = np.random.choice(__DTYPES__, 1)[0]
-    choise = random_dtype in __angle_dtypes
-
-iza, vza, iaa, vaa, alpha, beta, nbar = np.random.uniform(1, np.pi/2, n), np.random.uniform(1, np.pi/2, n), \
+iza, vza, iaa, vaa, alpha, beta, nbar = np.random.uniform(1, np.pi / 2, n), np.random.uniform(1, np.pi / 2, n), \
                                         np.random.uniform(1, 2 * np.pi, n), np.random.uniform(1, 2 * np.pi, n), \
                                         np.random.uniform(1, np.pi, n), np.random.uniform(1, 2 * np.pi, n), \
                                         np.random.uniform(1, np.pi / 4, 1)

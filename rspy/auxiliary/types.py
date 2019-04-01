@@ -9,11 +9,9 @@ import numpy as np
 __all__ = ['valid_dtype', 'valid_angle_deg', 'valid_angle_rad', 'check_angle_unit']
 
 __DTYPES__ = [np.float, np.float16,
-              np.single,
               np.double, np.longdouble,
-              np.cdouble, np.clongdouble,
               np.float32, np.float64,
-              float, int]
+              float]
 
 __UNIT_RAD__ = ['RAD', 'rad', 'radian', 'radians']
 __UNIT_DEG__ = ['DEG', 'deg', 'degree', 'degrees']

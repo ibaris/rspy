@@ -3,8 +3,10 @@
 Created on  by Ismail Baris
 """
 from __future__ import division
-from rspy.ancillary.trigonometry import *
+
 import numpy as np
+
+from rspy.ancillary.trigonometry import *
 
 n = 100
 DEG = np.random.uniform(0, 360, n)

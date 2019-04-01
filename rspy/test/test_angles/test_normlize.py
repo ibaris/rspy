@@ -3,9 +3,10 @@
 Created on 01.04.2019 by Ismail Baris
 """
 from __future__ import division
-from rspy import Angles, same_len
+
 import numpy as np
-import pytest
+
+from rspy import Angles
 from rspy.auxiliary.types import __DTYPES__
 
 n = 100
