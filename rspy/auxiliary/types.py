@@ -3,6 +3,7 @@
 Created on 31.03.2019 by Ismail Baris
 """
 from __future__ import division
+
 import numpy as np
 
 __all__ = ['valid_dtype', 'valid_angle_deg', 'valid_angle_rad', 'check_angle_unit']
