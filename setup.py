@@ -21,21 +21,21 @@ except ImportError:
     from distutils.core import setup
     from distutils.extension import Extension
 
-from setuptools import find_packages
 import numpy
+from setuptools import find_packages
 
 
 def get_version():
     version = dict()
 
-    with open("rspy/___version___.py") as fp:
+    with open("rspy/__version__.py") as fp:
         exec (fp.read(), version)
 
     return version['__version__']
 
 
 def get_packages():
-    find_packages(exclude=['docs', 'tests', 'invert']),
+    find_packages(exclude=['docs']),
     return find_packages()
 
 
