@@ -5,7 +5,7 @@ Created on 01.04.2019 by Ismail Baris
 from __future__ import division
 
 import sympy.physics.units as sympy_units
-from respy.units import dimensions
+from rspy.units import dimensions
 from sympy import S
 from sympy.physics.units.quantities import Quantity as sQuantity
 
