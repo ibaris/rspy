@@ -7,16 +7,12 @@ import numpy as np
 
 __all__ = ['valid_dtype', 'valid_angle_deg', 'valid_angle_rad', 'check_angle_unit']
 
-__DTYPES__ = [np.short, np.ushort,
-              np.longlong,
-              np.ulonglong, np.half,
-              np.float, np.float16,
+__DTYPES__ = [np.float, np.float16,
               np.single,
-              np.double, np.longdouble, np.csingle,
+              np.double, np.longdouble,
               np.cdouble, np.clongdouble,
-              np.int, np.int16, np.int32, np.int64, np.intc,
-              np.float32, np.float64, np.complex, np.complex64, np.complex128,
-              float, int, complex]
+              np.float32, np.float64,
+              float, int]
 
 __UNIT_RAD__ = ['RAD', 'rad', 'radian', 'radians']
 __UNIT_DEG__ = ['DEG', 'deg', 'degree', 'degrees']
@@ -38,7 +34,7 @@ def valid_angle_rad(unit):
 
 def check_angle_unit(unit):
     if valid_angle_deg(unit) or valid_angle_rad(unit):
-        pass
+        return True
     else:
         raise ValueError("Unit `{0}` not understood. Supported angle units "
                          "are: {1} and {2}".format(str(unit), __UNIT_RAD__, __UNIT_DEG__))
