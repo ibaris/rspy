@@ -94,34 +94,8 @@ class TestSetter:
                                 False]
 
         ang.dtype = random_dtype2
-
-        for i, item in enumerate(degitems):
-            assert np.allclose(ang[degitems_key[i]], item.astype(random_dtype2))
-
-        for i, item in enumerate(raditems):
-            assert np.allclose(ang[raditems_key[i]], item.astype(random_dtype2))
-
-        for i, item in enumerate(property_list_values):
-            try:
-                assert np.allclose(ang[property_list[i]], item.astype(random_dtype2))
-            except (ValueError, TypeError, AttributeError):
-                assert ang[property_list[i]] == item
-
-        assert np.allclose(ang.array, array)
-        assert np.allclose(ang.arrayDeg, arrayDeg)
-        assert ang.align == align
-        assert ang.angle_unit == angle_unit
-
-        raditems_geom = [iza, vza, raa, iaa, vaa, alpha, beta]
-        degitems_geom = [izaDeg, vzaDeg, raaDeg, iaaDeg, vaaDeg, alphaDeg, betaDeg]
-
-        for i in range(len(iza)):
-            radgeom = ang.geometries[i]
-            degdgeom = ang.geometriesDeg[i]
-
-            for j, _ in enumerate(radgeom):
-                assert np.allclose(radgeom[j], raditems_geom[j][i])
-                assert np.allclose(degdgeom[j], degitems_geom[j][i])
+        assert ang.array.dtype == random_dtype2
+        assert ang.arrayDeg.dtype == random_dtype2
 
         with pytest.raises(ValueError):
             ang.dtype = np.int

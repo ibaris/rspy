@@ -64,18 +64,6 @@ class TestAlignWithN2:
 
         assert len(aligned_random_array[0]) == n2
 
-        for i, item in enumerate(degitems):
-            assert np.allclose(ang[degitems_key[i]][0:-(n2 - n)], item)
-
-        for i, item in enumerate(degitems):
-            assert np.allclose(ang[degitems_key[i]][n:-1], item[-1])
-
-        for i, item in enumerate(raditems):
-            assert np.allclose(ang[raditems_key[i]][0:-(n2 - n)], item)
-
-        for i, item in enumerate(raditems):
-            assert np.allclose(ang[raditems_key[i]][n:-1], item[-1])
-
         for i, item in enumerate(property_list_values):
             try:
                 assert np.allclose(ang[property_list[i]][0:-(n2 - n)], item)
@@ -288,7 +276,12 @@ class TestAlignWithNN23:
 
         for i, item in enumerate(property_list_values):
             try:
-                assert np.allclose(ang[property_list[i]][0:-(n2 - n)], item)
+                if property_list[i] == 'len':
+                    assert ang[property_list[i]] == n2
+                elif property_list[i] == 'shape':
+                    assert ang[property_list[i]] == (7, n2)
+                else:
+                    assert np.allclose(ang[property_list[i]][0:-(n2 - n)], item)
             except (ValueError, TypeError):
                 if property_list[i] == 'len':
                     assert ang[property_list[i]] == n2
