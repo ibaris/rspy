@@ -1,7 +1,7 @@
-import units
-from .ancillary import *
-from .angles import Angles
-from .auxiliary import *
-from .constants import *
-from .stats import *
-from .units import Units
+import rspy.units
+from rspy.ancillary import *
+from rspy.angles import Angles
+from rspy.auxiliary import *
+from rspy.constants import *
+from rspy.stats import *
+from rspy.units import Units
