@@ -28,7 +28,7 @@ class TestNoneUnitsAndDimensions:
                  Units.frequency.values(), Units.length.values(), Units.mass.values(), Units.power.values(),
                  Units.temperature.values(), Units.time.values()]
 
-        for i in range(len(units)):
+        for i, _ in enumerate(units):
             items = units[i]
 
             for item in items:

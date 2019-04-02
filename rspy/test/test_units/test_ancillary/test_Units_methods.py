@@ -13,7 +13,7 @@ from rspy import Units
 n = 300
 
 __OPERAND__ = ['*', '/', '+', '-', '**']
-__OPERAND_OBJECT__ = [operator.mul, operator.div, operator.add, operator.sub, operator.pow]
+__OPERAND_OBJECT__ = [operator.mul, operator.truediv, operator.add, operator.sub, operator.pow]
 
 __OPERATOR__ = dict(zip(__OPERAND__, __OPERAND_OBJECT__))
 

@@ -33,7 +33,12 @@ class TestDictMethods:
         keys = ['a', 'b', 'c']
         for item in keys:
             with pytest.raises(AttributeError):
-                Units.item
+                first = Units.item
+
+            with pytest.raises(KeyError):
+                second = Units[item]
+
+
 
     def test_links_to_dimensions(self):
         for i in range(1, len(dir_list)):
