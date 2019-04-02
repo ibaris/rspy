@@ -47,7 +47,8 @@ class TestExpressionMethods:
             operand = np.random.random()
             operator = np.random.choice(__OPERAND_OBJECT__)
             ind = np.random.choice(len(Units.units.values()))
-            unit = Units.units.values()[ind]
+            values = Units.units.values()
+            unit = values[ind]
 
             expr = operator(operand, unit)
 
@@ -59,7 +60,8 @@ class TestExpressionMethods:
             operand = np.random.random((i, j, k))
             operator = np.random.choice(__OPERAND_OBJECT__)
             ind = np.random.choice(len(Units.units.values()))
-            unit = Units.units.values()[ind]
+            values = Units.units.values()
+            unit = values[ind]
 
             expr = operator(operand, unit)
 
