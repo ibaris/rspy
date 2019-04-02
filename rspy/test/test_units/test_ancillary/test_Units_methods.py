@@ -46,7 +46,8 @@ class TestExpressionMethods:
         for x in range(n):
             operand = np.random.random()
             operator = np.random.choice(__OPERAND_OBJECT__)
-            unit = np.random.choice(Units.units.values())
+            ind = np.random.choice(len(Units.units.values()))
+            unit = Units.units.values()[ind]
 
             expr = operator(operand, unit)
 
@@ -57,7 +58,8 @@ class TestExpressionMethods:
             i, j, k = np.random.randint(1, 10), np.random.randint(1, 10), np.random.randint(1, 10)
             operand = np.random.random((i, j, k))
             operator = np.random.choice(__OPERAND_OBJECT__)
-            unit = np.random.choice(Units.units.values())
+            ind = np.random.choice(len(Units.units.values()))
+            unit = Units.units.values()[ind]
 
             expr = operator(operand, unit)
 
