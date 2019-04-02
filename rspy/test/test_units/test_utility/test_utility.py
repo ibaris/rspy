@@ -10,7 +10,7 @@ from rspy import Units
 from rspy.units.auxiliary import __NONE_TYPE_UNITS__, Zero
 from rspy.units.utility import *
 
-n = 100
+n = 10
 
 
 class TestNoneUnitsAndDimensions:

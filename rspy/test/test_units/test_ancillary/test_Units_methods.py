@@ -10,7 +10,7 @@ import numpy as np
 
 from rspy import Units
 
-n = 300
+n = 30
 
 __OPERAND__ = ['*', '/', '+', '-', '**']
 __OPERAND_OBJECT__ = [operator.mul, operator.truediv, operator.add, operator.sub, operator.pow]
@@ -48,7 +48,7 @@ class TestExpressionMethods:
             operator = np.random.choice(__OPERAND_OBJECT__)
             ind = np.random.choice(len(Units.units.values()))
             values = Units.units.values()
-            unit = values[ind]
+            unit = np.asanyarray(values).flatten()[ind]
 
             expr = operator(operand, unit)
 
@@ -61,7 +61,7 @@ class TestExpressionMethods:
             operator = np.random.choice(__OPERAND_OBJECT__)
             ind = np.random.choice(len(Units.units.values()))
             values = Units.units.values()
-            unit = values[ind]
+            unit = np.asanyarray(values).flatten()[ind]
 
             expr = operator(operand, unit)
 

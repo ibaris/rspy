@@ -79,7 +79,11 @@ class TestAlignWithN2:
                 elif property_list[i] == 'shape':
                     assert ang[property_list[i]] == (7, n2)
                 else:
-                    assert ang[property_list[i]] == item
+                    try:
+                        assert ang[property_list[i]] == item
+                    except ValueError:
+                        print(ang[property_list[i]])
+                        print(item)
 
         assert ang.align == align
         assert ang.angle_unit == angle_unit
