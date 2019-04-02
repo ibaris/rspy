@@ -104,5 +104,85 @@ class Units(dict):
         for item in self.__unit_dict.keys():
             self[item] = self.__unit_dict[item]
 
+    @staticmethod
+    def unit_isnone(unit):
+        """
+        Check if a unit has a None-Typed object.
+
+        Parameters
+        ----------
+        unit : object
+            Unit expression.
+
+        Returns
+        -------
+        bool
+        """
+        return unit_isnone(unit)
+
+    @staticmethod
+    def dim_isnone(unit):
+        """
+        Check if a dimension of a unit has a None-Typed object.
+
+        Parameters
+        ----------
+        unit : object
+            Unit expression.
+
+        Returns
+        -------
+        bool
+        """
+        return dim_isnone(unit)
+
+    @staticmethod
+    def dim_isone(unit):
+        """
+        Check if a dimension of a unit is One.
+
+        Parameters
+        ----------
+        unit : object
+            Unit expression.
+
+        Returns
+        -------
+        bool
+        """
+        return dim_isone(unit)
+
+    @staticmethod
+    def dim_iszero(unit):
+        """
+        Check if a dimension of a unit is Zero.
+
+        Parameters
+        ----------
+        unit : object
+            Unit expression.
+
+        Returns
+        -------
+        bool
+        """
+        return dim_iszero(unit)
+
+    @staticmethod
+    def isexpr(value):
+        """
+        Check if a object is sympy expression.
+
+        Parameters
+        ----------
+        value : object or numpy.ndarray
+            Expression.
+
+        Returns
+        -------
+        bool
+        """
+        return isexpr(value)
+
 
 Units = Units()
