@@ -27,31 +27,31 @@ class Units(dict):
     using the `keys()` method. adar Backscatter values of multi scattering contribution of surface and volume
     """
 
-    Frequency = Frequency()
-    Length = Length()
-    Energy = Energy()
-    Power = Power()
-    Time = Time()
-    Temperature = Temperature()
-    Mass = Mass()
-    Current = Current()
-    Other = Other()
-    Area = Area()
-    Angle = Angle()
-    Volume = Volume()
+    __Frequency = Frequency()
+    __Length = Length()
+    __Energy = Energy()
+    __Power = Power()
+    __Time = Time()
+    __Temperature = Temperature()
+    __Mass = Mass()
+    __Current = Current()
+    __Other = Other()
+    __Area = Area()
+    __Angle = Angle()
+    __Volume = Volume()
 
-    __unit_dict__ = {"frequency": Frequency,
-                     'length': Length,
-                     "energy": Energy,
-                     "power": Power,
-                     "time": Time,
-                     "temperature": Temperature,
-                     'mass': Mass,
-                     "current": Current,
-                     'other': Other,
-                     'area': Area,
-                     'volume': Volume,
-                     'angle': Angle}
+    __unit_dict__ = {"frequency": __Frequency,
+                     'length': __Length,
+                     "energy": __Energy,
+                     "power": __Power,
+                     "time": __Time,
+                     "temperature": __Temperature,
+                     'mass': __Mass,
+                     "current": __Current,
+                     'other': __Other,
+                     'area': __Area,
+                     'volume': __Volume,
+                     'angle': __Angle}
 
     dimensions = {'angle': angle, 'area': area, 'volume': volume, 'frequency': frequency, 'length': length,
                   'energy': energy, 'power': power,
