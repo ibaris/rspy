@@ -47,10 +47,8 @@ class TestExpressionMethods:
             operand = np.random.random()
             operator = np.random.choice(__OPERAND_OBJECT__)
             ind = np.random.choice(len(Units.units.values()))
-            values = Units.units.values()
-            value_array = np.asanyarray(values).flatten()
-            print(value_array)
-            unit = value_array[ind]
+            values = list(Units.units.values())
+            unit = values[ind]
 
             expr = operator(operand, unit)
 
@@ -62,10 +60,8 @@ class TestExpressionMethods:
             operand = np.random.random((i, j, k))
             operator = np.random.choice(__OPERAND_OBJECT__)
             ind = np.random.choice(len(Units.units.values()))
-            values = Units.units.values()
-            value_array = np.asanyarray(values).flatten()
-            print(value_array)
-            unit = value_array[ind]
+            values = list(Units.units.values())
+            unit = values[ind]
 
             expr = operator(operand, unit)
 
