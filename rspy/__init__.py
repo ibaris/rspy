@@ -1,7 +1,7 @@
-from .auxiliary import *
+import units
 from .ancillary import *
+from .angles import Angles
+from .auxiliary import *
 from .constants import *
 from .stats import *
-from .angles import Angles
-import units
 from .units import Units
