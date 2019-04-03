@@ -7,7 +7,7 @@ from __future__ import division
 
 from rspy.auxiliary import Operator, UnitError
 from rspy.units.auxiliary import (Frequency, Length, Energy, Power, Time, Temperature, Mass, Current, Other,
-                                  Volume, Area, Angle)
+                                  Volume, Area, Angle, Zero)
 from rspy.units.dimensions import (frequency, length, energy, power, time, temperature, mass,
                                    current, area, volume, angle)
 from rspy.units.si_units import __unit__, __values__
@@ -251,6 +251,8 @@ class Units(dict):
         """
         if isinstance(unit, str):
             return Units.str2unit(unit)
+        elif Units.unit_isnone(unit):
+            return Zero
         elif Units.isexpr(unit):
             return unit
         else:
