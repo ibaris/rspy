@@ -7,7 +7,6 @@ from __future__ import division
 import operator
 
 import numpy as np
-
 from rspy import Units
 
 n = 30
