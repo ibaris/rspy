@@ -4,10 +4,14 @@ Created on 01.04.2019 by Ismail Baris
 """
 from __future__ import division
 
-from rspy.units.auxiliary import *
-from rspy.units.dimensions import *
+
+from rspy.auxiliary import Operator, UnitError
+from rspy.units.auxiliary import (Frequency, Length, Energy, Power, Time, Temperature, Mass, Current, Other,
+                                  Volume, Area, Angle)
+from rspy.units.dimensions import (frequency, length, energy, power, time, temperature, mass,
+                                   current, area, volume, angle)
 from rspy.units.si_units import __unit__, __values__
-from rspy.units.utility import *
+from rspy.units.utility import (unit_isnone, dim_isnone, dim_isone, dim_iszero, isexpr)
 
 __all__ = ['Units']
 
@@ -184,5 +188,72 @@ class Units(dict):
         """
         return isexpr(value)
 
+    @staticmethod
+    def str2unit(unit):
+        """
+        Get a unit object from str or char.
+
+        Parameters
+        ----------
+        unit : char*
+            Desired unit in str format.
+
+        Returns
+        -------
+        object
+
+        """
+
+        unit_str = unit.split()
+        unit_list = []
+        operand_list = []
+
+        for item in unit_str:
+            if item in Operator.keys():
+                operand_list.append(item)
+
+            else:
+                try:
+                    item = int(item)
+                    unit_list.append(item)
+
+                except ValueError:
+                    try:
+                        unit_list.append(Units.units[item])
+
+                    except KeyError:
+                        raise UnitError(
+                            "{} is not a valid unit. There should be spaces between the characters.".format(str(item)))
+
+        unit_obj = unit_list[0]
+
+        for i, item in enumerate(unit_list, 1):
+            try:
+                item = unit_list[i]
+                unit_obj = Operator[operand_list[i - 1]](unit_obj, item)
+            except IndexError:
+                pass
+
+        return unit_obj
+
+    @staticmethod
+    def get_unit(unit):
+        """
+        Get unit object from string or unit object (sympy).
+
+        Parameters
+        ----------
+        unit : str, char or unit object.
+
+        Returns
+        -------
+        object
+        """
+        if isinstance(unit, str):
+            return Units.str2unit(unit)
+        elif Units.isexpr(unit):
+            return unit
+        else:
+            raise UnitError("{} is not a valid unit.".format(str(unit)))
 
 Units = Units()
