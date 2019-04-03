@@ -10,8 +10,7 @@ from sympy.physics.units import convert_to as sympy_convert_to
 from sympy import S
 from rspy.bin.bin_units.dtypes cimport DTYPE_ARRAY
 
-
-cdef double[:] bin_convert_to(DTYPE_ARRAY expr, object unit) nogil:
+cdef double[:] bin_sym_convert_to(DTYPE_ARRAY expr, object unit):
     """
     Convert between units via `sympy.convert_to`.
     
@@ -28,15 +27,16 @@ cdef double[:] bin_convert_to(DTYPE_ARRAY expr, object unit) nogil:
     
     """
     cdef:
-        Py_ssize_t i, x
-        double[:] value_view
+        Py_ssize_t i, x = expr.shape[0]
 
-    value = np.zeros_like(expr, dtype=np.double)
-    value_view = value
-    x = value.shape[0]
+    cdef double[:] value = np.empty_like(expr, dtype=np.double)
 
     for i in range(x):
         arg = sympy_convert_to(expr[i], unit).n()
-        value_view[i] = arg.args[0] if arg.args[0] != S.Zero else arg
+
+        if arg.args[0] != S.Zero:
+            value[i] = arg.args[0]
+        else:
+            value[i] = arg
 
     return value

@@ -39,31 +39,24 @@ def get_packages():
     return find_packages()
 
 
-# with open('requirements.txt') as f:
-#     required = f.read().splitlines()
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
 
-# cmdclass = {}
-# ext_modules = []
-#
-# if use_cython:
-#     print ('******** Start compiling with CYTHON ********')
-#
-#     ext_modules += [
-#         Extension("respy.bin_units.conversion", ["respy/bin_units/conversion.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.auxil", ["respy/bin_units/auxil.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.decomposition", ["respy/bin_units/decomposition.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.util", ["respy/bin_units/util.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.wrapper", ["respy/bin_units/wrapper.pyx"], include_dirs=['.']),
-#
-#
-#         Extension("respy.unit_base.auxil", ["respy/unit_base/auxil.pyx"], include_dirs=['.']),
-#         Extension("respy.unit_base.convert", ["respy/unit_base/convert.pyx"], include_dirs=['.']),
-#         Extension("respy.unit_base.operations", ["respy/unit_base/operations.pyx"], include_dirs=['.']),
-#         Extension("respy.unit_base.util", ["respy/unit_base/util.pyx"], include_dirs=['.'])
-#     ]
-#
-#     cmdclass.update({'build_ext': build_ext})
-#
+cmdclass = {}
+ext_modules = []
+
+if use_cython:
+    print ('******** Start compiling with CYTHON ********')
+
+    ext_modules += [
+        Extension("rspy.bin.bin_units.conversion", ["rspy/bin/bin_units/conversion.pyx"],
+                  include_dirs=['rspy/bin', 'rspy/bin/bin_units', '.']),
+        Extension("rspy.bin.bin_units.units_wrapper", ["rspy/bin/bin_units/units_wrapper.pyx"],
+                  include_dirs=['rspy/bin', 'rspy/bin/bin_units', '.'])
+    ]
+
+    cmdclass.update({'build_ext': build_ext})
+
 #     print ('******** Compiling with CYTHON accomplished ********')
 #
 # else:
@@ -83,10 +76,10 @@ setup(name='rspy',
       description='Fundamental Formulas for Radar and Angle Management',
       packages=get_packages(),
 
-      # cmdclass=cmdclass,
+      cmdclass=cmdclass,
 
       include_dirs=[numpy.get_include()],
-      # ext_modules=ext_modules,
+      ext_modules=ext_modules,
 
       author="Ismail Baris",
       maintainer='Ismail Baris',
@@ -123,7 +116,7 @@ setup(name='rspy',
       },
       include_package_data=True,
       zip_safe=False,
-      install_requires=['numpy'],
+      install_requires=required,
       setup_requires=[
           'pytest-runner',
       ],
