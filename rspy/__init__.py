@@ -5,3 +5,4 @@ from rspy.auxiliary import *
 from rspy.constants import *
 from rspy.stats import *
 from rspy.units import Units
+import rspy.bin
