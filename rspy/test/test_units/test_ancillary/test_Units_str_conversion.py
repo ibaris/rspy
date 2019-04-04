@@ -5,6 +5,7 @@ Created on 03.04.19 by ibaris
 from __future__ import division
 
 import pytest
+
 from rspy import Units
 from rspy.auxiliary import UnitError
 from rspy.units.si_units import *
@@ -213,7 +214,7 @@ str_units = ['grams * nanometers - minutes ** dm',
 
 
 class TestGetUnit:
-    def str2unit(self):
+    def test_str2unit(self):
         for i, item in enumerate(str_units):
             assert true_vals[i] == Units.get_unit(item)
             assert true_vals[i] == Units.get_unit(true_vals[i])
@@ -225,3 +226,13 @@ class TestGetUnit:
                 item += 'pipi'
                 Units.get_unit(item)
                 Units.str2unit(item)
+
+
+class Test2Sting:
+    def test_unit2str(self):
+        for i, item in enumerate(true_vals):
+            assert '[' + str(true_vals[i]) + ']' == Units.unit2str(item)
+
+    def test_unit2sting_none(self):
+        for i, item in enumerate(str_units):
+            assert '[' + b'-' + ']' == Units.unit2str(item)
