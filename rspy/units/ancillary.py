@@ -239,6 +239,13 @@ class Units(dict):
         return unit_obj
 
     @staticmethod
+    def unit2str(unit):
+        if Units.isexpr(unit):
+            return '[' + str(unit) + ']'
+
+        return '[' + b'-' + ']'
+
+    @staticmethod
     def get_unit(unit):
         """
         Get unit object from string or unit object (sympy).
