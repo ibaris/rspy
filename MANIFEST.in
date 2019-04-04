@@ -1,0 +1,2 @@
+recursive-include pyrism/bin *.c
+recursive-include pyrism/bin *.pyx

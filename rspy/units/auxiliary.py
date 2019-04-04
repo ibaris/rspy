@@ -5,7 +5,7 @@ Created on 01.04.2019 by Ismail Baris
 import sympy as sym
 
 __all__ = ['Frequency', 'Length', 'Energy', 'Power', 'Time', 'Temperature', 'Mass', 'Current', 'Other',
-           'Volume', 'Area', 'Angle']
+           'Volume', 'Area', 'Angle', 'Zero', 'One', 'zoo', 'oo', 'NaN']
 
 __NONE_TYPE_UNITS__ = [sym.S.Zero, None, sym.zoo, sym.oo, sym.S.NaN]
 __NONE_TYPE_DIMS__ = [None, sym.zoo, sym.oo, sym.S.NaN]

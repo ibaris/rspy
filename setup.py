@@ -6,13 +6,20 @@ For COPYING and LICENSE details, please refer to the LICENSE file
 (c) 2017- Ismail Baris
 
 """
+import os
+from glob import glob
+
+import numpy
+from setuptools import find_packages
+
 try:
     from Cython.Distutils import build_ext
+
 except ImportError:
-    use_cython = False
+    USING_CYTHON = False
 
 else:
-    use_cython = True
+    USING_CYTHON = True
 
 try:
     from setuptools import setup
@@ -21,11 +28,18 @@ except ImportError:
     from distutils.core import setup
     from distutils.extension import Extension
 
-import numpy
-from setuptools import find_packages
 
-
+# ------------------------------------------------------------------------------------------------------------
+# Environmental Functions
+# ------------------------------------------------------------------------------------------------------------
 def get_version():
+    """
+    Function to get the version.
+
+    Returns
+    -------
+    out : str
+    """
     version = dict()
 
     with open("rspy/__version__.py") as fp:
@@ -35,68 +49,53 @@ def get_version():
 
 
 def get_packages():
-    find_packages(exclude=['docs']),
-    return find_packages()
+    """
+    Function get necessary modules.
+
+    Returns
+    -------
+    out : setuptools.find_packages
+    """
+    return find_packages(exclude=['docs'])
 
 
-# with open('requirements.txt') as f:
-#     required = f.read().splitlines()
+# Open and Read Requirements --------------------------------------------------------------------------------
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
 
-# cmdclass = {}
-# ext_modules = []
-#
-# if use_cython:
-#     print ('******** Start compiling with CYTHON ********')
-#
-#     ext_modules += [
-#         Extension("respy.bin_units.conversion", ["respy/bin_units/conversion.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.auxil", ["respy/bin_units/auxil.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.decomposition", ["respy/bin_units/decomposition.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.util", ["respy/bin_units/util.pyx"], include_dirs=['.']),
-#         Extension("respy.bin_units.wrapper", ["respy/bin_units/wrapper.pyx"], include_dirs=['.']),
-#
-#
-#         Extension("respy.unit_base.auxil", ["respy/unit_base/auxil.pyx"], include_dirs=['.']),
-#         Extension("respy.unit_base.convert", ["respy/unit_base/convert.pyx"], include_dirs=['.']),
-#         Extension("respy.unit_base.operations", ["respy/unit_base/operations.pyx"], include_dirs=['.']),
-#         Extension("respy.unit_base.util", ["respy/unit_base/util.pyx"], include_dirs=['.'])
-#     ]
-#
-#     cmdclass.update({'build_ext': build_ext})
-#
-#     print ('******** Compiling with CYTHON accomplished ********')
-#
-# else:
-#     print ('******** CYTHON Not Found. Use distributed .c files ********')
-#
-#     ext_modules += [
-#         Extension("respy.unit_base.auxil", ["respy/unit_base/auxil.c"], include_dirs=['.']),
-#         Extension("respy.unit_base.convert", ["respy/unit_base/convert.c"], include_dirs=['.']),
-#         Extension("respy.unit_base.operations", ["respy/unit_base/operations.c"], include_dirs=['.']),
-#         Extension("respy.unit_base.util", ["respy/unit_base/util.c"], include_dirs=['.'])
-#     ]
-#     print ('******** Compiling with distributed Files accomplished ********')
+# ------------------------------------------------------------------------------------------------------------
+# Build Cython Extensions
+# ------------------------------------------------------------------------------------------------------------
+ext_modules = []
+cmdclass = {}
+
+ext = 'pyx' if USING_CYTHON else 'c'  # Define extension. If cython is present then use the pyx files.
+sources = glob('rspy/**/*/*.{0}'.format(ext))  # Define source directories.
+
+for item in sources:
+    ext_modules.append(Extension(item.split('.')[0].replace(os.path.sep, '.'),
+                                 [item],
+                                 include_dirs=['rspy/bin', os.path.dirname(item), '.']))
+
+if USING_CYTHON:
+    cmdclass.update({'build_ext': build_ext})
 
 setup(name='rspy',
-
-      version=get_version(),
-      description='Fundamental Formulas for Radar and Angle Management',
-      packages=get_packages(),
-
-      # cmdclass=cmdclass,
-
-      include_dirs=[numpy.get_include()],
-      # ext_modules=ext_modules,
-
       author="Ismail Baris",
       maintainer='Ismail Baris',
+      version=get_version(),
+      description='Fundamental Formulas for Radar and Angle Management',
 
+      # Build Extensions -----------------------------------------------------------------------------------
+      packages=get_packages(),
+      cmdclass=cmdclass,
+      include_dirs=[numpy.get_include()],
+      ext_modules=ext_modules,
+
+      # General Package Information ------------------------------------------------------------------------
       # ~ license='APACHE 2',
-
       url='https://github.com/ibaris/rspy',
-
       long_description='Fundamental Formulas for Radar and Angle Management',
-      # install_requires=install_requires,
 
       keywords=["radar", "remote-sensing", "optics", "integration",
                 "microwave", "estimation", "physics", "radiative transfer"],
@@ -115,19 +114,16 @@ setup(name='rspy',
           "Programming Language :: Python :: 2.7",
           "Programming Language :: Python :: 3",
           "Programming Language :: Python :: 3.3",
-          "Programming Language :: Python :: 3.4",
+          "Programming Language :: Python :: 3.4"],
 
-      ],
-      package_data={
-          'respy/unit_base': ['*.pxd', '*.c'],
-      },
+      # Include Package Data -------------------------------------------------------------------------------
+      package_data={'rspy/bin/bin_unit': ['*.pxd', '*.c']},
       include_package_data=True,
       zip_safe=False,
-      install_requires=['numpy'],
-      setup_requires=[
-          'pytest-runner',
-      ],
-      tests_require=[
-          'pytest',
-      ],
-      )
+
+      # Package Requirement --------------------------------------------------------------------------------
+      install_requires=required,
+
+      # Package Testing ------------------------------------------------------------------------------------
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest'])

@@ -4,10 +4,12 @@ Created on 01.04.2019 by Ismail Baris
 """
 from __future__ import division
 
+import numpy as np
 
 from rspy.auxiliary import Operator, UnitError
+from rspy.bin.bin_units import sym_convert_to
 from rspy.units.auxiliary import (Frequency, Length, Energy, Power, Time, Temperature, Mass, Current, Other,
-                                  Volume, Area, Angle)
+                                  Volume, Area, Angle, Zero)
 from rspy.units.dimensions import (frequency, length, energy, power, time, temperature, mass,
                                    current, area, volume, angle)
 from rspy.units.si_units import __unit__, __values__
@@ -237,6 +239,13 @@ class Units(dict):
         return unit_obj
 
     @staticmethod
+    def unit2str(unit):
+        if Units.isexpr(unit):
+            return '[' + str(unit) + ']'
+
+        return '[' + '-' + ']'
+
+    @staticmethod
     def get_unit(unit):
         """
         Get unit object from string or unit object (sympy).
@@ -251,9 +260,58 @@ class Units(dict):
         """
         if isinstance(unit, str):
             return Units.str2unit(unit)
+        elif Units.unit_isnone(unit):
+            return Zero
         elif Units.isexpr(unit):
             return unit
         else:
             raise UnitError("{} is not a valid unit.".format(str(unit)))
+
+    @staticmethod
+    def convert_to(value, unit, to_unit):
+
+        if isinstance(unit, str):
+            unit = Units.str2unit(unit)
+
+        if isinstance(to_unit, str):
+            to_unit = Units.str2unit(to_unit)
+
+        if hasattr(unit, 'dimension') and not hasattr(to_unit, 'dimension'):
+            if to_unit == 1 / Units.time.s and unit.dimension == Units.dimensions['frequency']:
+                scaled_value = value * unit.scale_factor
+                value = scaled_value / Units[str(unit.dimension.name)]['Hz'].scale_factor
+
+                return np.atleast_1d(np.asarray(value, dtype=np.double))
+
+        elif hasattr(to_unit, 'dimension') and not hasattr(unit, 'dimension'):
+            if unit == 1 / Units.time.s and to_unit.dimension == Units.dimensions['frequency']:
+                scaled_value = value
+
+                value = scaled_value / Units[str(to_unit.dimension.name)][str(to_unit)].scale_factor
+
+                return np.atleast_1d(np.asarray(value, dtype=np.double))
+
+        elif hasattr(to_unit, 'dimension') and hasattr(unit, 'dimension'):
+            if to_unit.dimension == unit.dimension:
+                scaled_value = value * Units[str(to_unit.dimension.name)][str(unit)].scale_factor
+
+                value = scaled_value / Units[str(to_unit.dimension.name)][str(to_unit)].scale_factor
+
+                return np.atleast_1d(np.asarray(value, dtype=np.double))
+
+        if isinstance(value, np.ndarray):
+            shape = value.shape
+            expr = value.astype(np.double).flatten() * unit
+
+            conversion = sym_convert_to(expr, to_unit)
+
+            return conversion.reshape(shape)
+
+        else:
+            value = np.asanyarray(value, dtype=np.double).flatten()
+            expr = value * unit
+
+        return sym_convert_to(expr, to_unit).base
+
 
 Units = Units()
