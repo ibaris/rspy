@@ -235,4 +235,4 @@ class Test2Sting:
 
     def test_unit2sting_none(self):
         for i, item in enumerate(str_units):
-            assert '[' + b'-' + ']' == Units.unit2str(item)
+            assert '[' + '-' + ']' == Units.unit2str(item)
