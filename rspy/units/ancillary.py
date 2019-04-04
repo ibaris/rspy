@@ -243,7 +243,7 @@ class Units(dict):
         if Units.isexpr(unit):
             return '[' + str(unit) + ']'
 
-        return '[' + b'-' + ']'
+        return '[' + '-' + ']'
 
     @staticmethod
     def get_unit(unit):
