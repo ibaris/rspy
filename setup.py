@@ -67,20 +67,18 @@ with open('requirements.txt') as f:
 # Build Cython Extensions
 # ------------------------------------------------------------------------------------------------------------
 ext_modules = []
+cmdclass = {}
 
-if USING_CYTHON:
-    ext = 'pyx'  # Define extension. If cython is present then use the pyx files.
-    cmdclass = {'built_ext': build_ext}  # Define cmdclass. If cython is present then use build_ext files.
-else:
-    ext = 'c'
-    cmdclass = {}
-
-sources = glob('rspy/**/*/*.pyx')
+ext = 'pyx' if USING_CYTHON else 'c'  # Define extension. If cython is present then use the pyx files.
+sources = glob('rspy/**/*/*.{0}'.format(ext))  # Define source directories.
 
 for item in sources:
     ext_modules.append(Extension(item.split('.')[0].replace(os.path.sep, '.'),
                                  [item],
                                  include_dirs=['rspy/bin', os.path.dirname(item), '.']))
+
+if USING_CYTHON:
+    cmdclass.update({'build_ext': build_ext})
 
 setup(name='rspy',
       author="Ismail Baris",

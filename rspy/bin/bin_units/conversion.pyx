@@ -10,6 +10,7 @@ from sympy.physics.units import convert_to as sympy_convert_to
 from sympy import S
 from rspy.bin.bin_units.dtypes cimport DTYPE_ARRAY
 
+
 cdef double[:] bin_sym_convert_to(DTYPE_ARRAY expr, object unit):
     """
     Convert between units via `sympy.convert_to`.
