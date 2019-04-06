@@ -53,13 +53,13 @@ class Waves(object):
         Evaluate Planck's radiation law.
     """
 
-    def __init__(self, input, unit='GHz', output='cm'):
+    def __init__(self, value, unit='GHz', output='cm'):
         """
         A class to describe electromagnetic waves.
 
         Parameters
         ----------
-        input : int, float, np.ndarray, respy.units.quantity.Quantity
+        value : int, float, np.ndarray, respy.units.quantity.Quantity
             Frequency or wavelength.
         unit : str, respy.units.Units, sympy.physics.units.quantities.Quantity
             Unit of input. Default is 'GHz'.
@@ -69,7 +69,7 @@ class Waves(object):
         """
 
         # Prepare Input Data and set values ----------------------------------------------------------------------------
-        input = np.asarray(input).flatten()
+        value = np.asarray(value).flatten()
 
         # Self Definitions ---------------------------------------------------------------------------------------------
         self.__unit = Units.get_unit(unit)
@@ -80,11 +80,11 @@ class Waves(object):
             self.__frequency_unit = self.__unit
 
             if self.__output not in Units.length.values():
-                raise UnitError("Output unit {} is not a valid unit if input is a frequency.".format(str(output)))
+                raise UnitError("Output unit {} is not a valid unit if value is a frequency.".format(str(output)))
             else:
                 self.__wavelength_unit = self.__output
 
-            self.__frequency = np.asarray(input).flatten()
+            self.__frequency = np.asarray(value).flatten()
 
             self.__wavelength = Waves.compute_wavelength(self.__frequency, self.__frequency_unit,
                                                          output=self.__wavelength_unit)
@@ -93,17 +93,17 @@ class Waves(object):
             self.__wavelength_unit = self.__unit
 
             if self.__output not in Units.frequency.values():
-                raise UnitError("Output unit {} is not a valid unit if input is a wavelength.".format(str(output)))
+                raise UnitError("Output unit {} is not a valid unit if value is a wavelength.".format(str(output)))
             else:
                 self.__frequency_unit = self.__output
 
-            self.__wavelength = np.asarray(input).flatten()
+            self.__wavelength = np.asarray(value).flatten()
             self.__frequency = Waves.compute_frequency(self.__wavelength, unit=self.__wavelength_unit,
                                                        output=self.__frequency_unit)
 
         else:
             raise UnitError("Input must be a frequency or a wavelength. "
-                            "If input is a frequency, unit must be {0}. "
+                            "If value is a frequency, unit must be {0}. "
                             "When entering a wavelength, unit must be {1}.".format(str(Units.frequency.keys()),
                                                                                    str(Units.length.keys())))
 
