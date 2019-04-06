@@ -93,8 +93,8 @@ class Sensor(Angles, Waves):
 
         if self.name is None or self.name is b'':
             return '{0}{1} [{2}]>'.format(prefix, arrstr, unit)
-        else:
-            return '{0}{1} {2} in [{3}]>'.format(prefix, arrstr, self.name, unit)
+
+        return '{0}{1} {2} in [{3}]>'.format(prefix, arrstr, self.name, unit)
 
     def align_with(self, value):
         """
