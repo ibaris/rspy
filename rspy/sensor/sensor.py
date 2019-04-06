@@ -91,7 +91,7 @@ class Sensor(Angles, Waves):
 
             unit = self.wavelength_unit
 
-        if self.name is None or self.name is b'':
+        if self.name is None or self.name == b'':
             return '{0}{1} [{2}]>'.format(prefix, arrstr, unit)
 
         return '{0}{1} {2} in [{3}]>'.format(prefix, arrstr, self.name, unit)
