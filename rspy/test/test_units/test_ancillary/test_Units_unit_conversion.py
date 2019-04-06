@@ -111,3 +111,42 @@ class TestBothDimensions:
                 rspy_conversion = Units.convert_to(values[j], unit1, unit2).round(4)
 
                 assert np.allclose(sympy_result, rspy_conversion)
+
+class TestCycle:
+    def test_hz_cycle_unit1(self):
+        values = np.random.uniform(0.1, 500, 100)
+
+        for x in range(n):
+            j = np.random.randint(0, 100)
+            units = Units['frequency']
+
+            ind = np.random.choice(len(units.values()))
+            unit_values = list(units.values())
+            unit1 = 1 / Units.time.s
+            unit2 = unit_values[ind]
+
+            sympy_conversion = sympy_convert_to(unit1 * values[j], unit2)
+            sympy_result = round(float(sympy_conversion.args[0]), 4)
+
+            rspy_conversion = Units.convert_to(values[j], unit1, unit2).round(4)
+
+            assert np.allclose(sympy_result, rspy_conversion)
+
+    def test_hz_cycle_unit2(self):
+        values = np.random.uniform(0.1, 500, 100)
+
+        for x in range(n):
+            j = np.random.randint(0, 100)
+            units = Units['frequency']
+
+            ind = np.random.choice(len(units.values()))
+            unit_values = list(units.values())
+            unit1 = unit_values[ind]
+            unit2 = 1 / Units.time.s
+
+            sympy_conversion = sympy_convert_to(unit1 * values[j], unit2)
+            sympy_result = round(float(sympy_conversion.args[0]), 4)
+
+            rspy_conversion = Units.convert_to(values[j], unit1, unit2).round(4)
+
+            assert np.allclose(sympy_result, rspy_conversion)
