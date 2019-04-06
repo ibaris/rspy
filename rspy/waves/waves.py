@@ -278,9 +278,7 @@ class Waves(object):
         c = Units.convert_to(const.c, 'm / s', unit / Units.time.s)
         f = c / wavelength
 
-        f = Units.convert_to(f, '1 / s', output)
-
-        return Units.convert_to(f, '1 / s', output)
+        return Units.convert_to(f, 'Hz', output)
 
     @staticmethod
     def compute_wavelength(frequency, unit='GHz', output='cm'):
