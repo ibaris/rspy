@@ -32,6 +32,7 @@ random_arrays.append(max_length_array)
 class TestAlignment:
     def test_align_all_dtype_none(self):
         assert not same_len(random_arrays)
+        assert not same_len(3)
         assert not same_shape(random_arrays)
 
         aligned = align_all(tuple(random_arrays))
