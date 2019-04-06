@@ -9,6 +9,7 @@ from distutils import dir_util
 
 import numpy as np
 import pytest
+
 from rspy import Phase
 
 

@@ -3,17 +3,20 @@
 Created on 06.04.19 by ibaris
 """
 from __future__ import division
-from rspy import Phase, same_len
+
 import numpy as np
 import pytest
+
+from rspy import Phase, same_len
 
 n = 100
 
 iza, vza, iaa, vaa, nbar = np.random.uniform(1, np.pi, n), np.random.uniform(1, np.pi, n), \
-                                        np.random.uniform(1, 2 * np.pi, n), np.random.uniform(1, 2 * np.pi, n), \
-                                        np.random.uniform(1, np.pi / 4, 1)
+                           np.random.uniform(1, 2 * np.pi, n), np.random.uniform(1, 2 * np.pi, n), \
+                           np.random.uniform(1, np.pi / 4, 1)
 
-izaDeg, vzaDeg, iaaDeg, vaaDeg, nbarDeg = np.rad2deg(iza), np.rad2deg(vza), np.rad2deg(iaa), np.rad2deg(vaa),  np.rad2deg(nbar)
+izaDeg, vzaDeg, iaaDeg, vaaDeg, nbarDeg = np.rad2deg(iza), np.rad2deg(vza), np.rad2deg(iaa), np.rad2deg(
+    vaa), np.rad2deg(nbar)
 
 raa = iaa - vaa
 raaDeg = iaaDeg - vaaDeg
@@ -42,7 +45,6 @@ class TestExceptions:
     def test_valid_units(self):
         with pytest.raises(ValueError):
             ang = Phase(iza=iza, vza=vza, iaa=iaa, vaa=vaa, angle_unit='degg')
-
 
 
 class TestInit:
