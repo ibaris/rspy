@@ -28,7 +28,7 @@
 <p align="center">
   <a href="https://travis-ci.com/ibaris/rspy"><img src="https://travis-ci.com/ibaris/rspy.svg?token=sdE5XxL3JmzxUdz7gza1&branch=master"></a>
   <a href='https://coveralls.io/github/ibaris/rspy?branch=bin_units'><img src='https://coveralls.io/repos/github/ibaris/rspy/badge.svg?branch=bin_units' alt='Coverage Status' /></a>
-<a href="https://www.codefactor.io/repository/github/ibaris/rspy"><img src="https://www.codefactor.io/repository/github/ibaris/rspy/badge" alt="CodeFactor" /></a>
+  <a href="https://www.codefactor.io/repository/github/ibaris/rspy"><img src="https://www.codefactor.io/repository/github/ibaris/rspy/badge" alt="CodeFactor" /></a>
 </p>
 
 # Description
