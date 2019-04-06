@@ -19,6 +19,8 @@ if sys.version_info < (3, 0):
 else:
     srange = range
 
+__all__ = ['Angles']
+
 
 class Angles(object):
     """ Angle Management System
