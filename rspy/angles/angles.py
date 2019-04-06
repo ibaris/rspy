@@ -149,44 +149,44 @@ class Angles(object):
         self.__normalize = normalize
 
         if valid_angle_deg(angle_unit):
-            self.__array = d2r(temporal_array)
+            self.array = d2r(temporal_array)
             self.__nbar = d2r(nbar)
 
-            self.__arrayDeg = temporal_array
+            self.arrayDeg = temporal_array
             self.__nbarDeg = nbar
 
         elif valid_angle_rad(angle_unit):
-            self.__array = temporal_array
+            self.array = temporal_array
             self.__nbar = nbar
 
-            self.__arrayDeg = r2d(temporal_array)
+            self.arrayDeg = r2d(temporal_array)
             self.__nbarDeg = r2d(nbar)
 
         # Normalize Angles depending on Parameter normalize ------------------------------------------
-        self.__array = self.__normalize_angles(self.__array, self.__nbar[0])
-        self.__arrayDeg = self.__normalize_angles(self.__arrayDeg, self.__nbarDeg[0])
+        self.array = self.__normalize_angles(self.array, self.__nbar[0])
+        self.arrayDeg = self.__normalize_angles(self.arrayDeg, self.__nbarDeg[0])
 
         # Check if there are negative angle values
 
         negative_angle_list = [0, 1, 5, 6]
 
         for number in negative_angle_list:
-            mask = np.where(self.__array[number] < 0)[0]
+            mask = np.where(self.array[number] < 0)[0]
 
             if number == 0:
                 iza_mask = mask
             elif number == 1:
                 vza_mask = mask
 
-            self.__array[number][mask] = np.abs(self.__array[number][mask])
-            self.__arrayDeg[number][mask] = np.abs(self.__arrayDeg[number][mask])
+            self.array[number][mask] = np.abs(self.array[number][mask])
+            self.arrayDeg[number][mask] = np.abs(self.arrayDeg[number][mask])
 
         self.mask = (iza_mask >= 0) & (vza_mask >= 0)
 
-        for item in self.__array[2:-2]:
+        for item in self.array[2:-2]:
             item[self.mask] += pi
 
-        for item in self.__arrayDeg[2:-2]:
+        for item in self.arrayDeg[2:-2]:
             item[self.mask] += 180.
 
         # Set Attributes -----------------------------------------------------------------------------
@@ -215,7 +215,7 @@ class Angles(object):
         -------
         len : int
         """
-        return self.__array.shape[1]
+        return self.array.shape[1]
 
     @property
     def shape(self):
@@ -226,7 +226,7 @@ class Angles(object):
         -------
         shape : tuple
         """
-        return self.__array.shape
+        return self.array.shape
 
     # Access to Angles -------------------------------------------------------------------------------------------------
     @property
@@ -238,7 +238,7 @@ class Angles(object):
         -------
         iza : array_like
         """
-        return self.__array[0]
+        return self.array[0]
 
     @property
     def izaDeg(self):
@@ -249,7 +249,7 @@ class Angles(object):
         -------
         iza : array_like
         """
-        return self.__arrayDeg[0]
+        return self.arrayDeg[0]
 
     @property
     def vza(self):
@@ -260,7 +260,7 @@ class Angles(object):
         -------
         vza : array_like
         """
-        return self.__array[1]
+        return self.array[1]
 
     @property
     def vzaDeg(self):
@@ -271,7 +271,7 @@ class Angles(object):
         -------
         vzaDeg : array_like
         """
-        return self.__arrayDeg[1]
+        return self.arrayDeg[1]
 
     @property
     def raa(self):
@@ -286,7 +286,7 @@ class Angles(object):
         -------
         raa : array_like
         """
-        return self.__array[2]
+        return self.array[2]
 
     @property
     def raaDeg(self):
@@ -301,7 +301,7 @@ class Angles(object):
         -------
         raaDeg : array_like
         """
-        return self.__arrayDeg[2]
+        return self.arrayDeg[2]
 
     @property
     def iaa(self):
@@ -316,7 +316,7 @@ class Angles(object):
         -------
         iaa : array_like
         """
-        return self.__array[3]
+        return self.array[3]
 
     @property
     def iaaDeg(self):
@@ -331,7 +331,7 @@ class Angles(object):
         -------
         iaaDeg : array_like
         """
-        return self.__arrayDeg[3]
+        return self.arrayDeg[3]
 
     @property
     def vaa(self):
@@ -346,7 +346,7 @@ class Angles(object):
         -------
         vaa : array_like
         """
-        return self.__array[4]
+        return self.array[4]
 
     @property
     def vaaDeg(self):
@@ -361,7 +361,7 @@ class Angles(object):
         -------
         vaaDeg : array_like
         """
-        return self.__arrayDeg[4]
+        return self.arrayDeg[4]
 
     @property
     def alpha(self):
@@ -372,7 +372,7 @@ class Angles(object):
         -------
         alpha : array_like
         """
-        return self.__array[5]
+        return self.array[5]
 
     @property
     def alphaDeg(self):
@@ -383,7 +383,7 @@ class Angles(object):
         -------
         alphaDeg : array_like
         """
-        return self.__arrayDeg[5]
+        return self.arrayDeg[5]
 
     @property
     def beta(self):
@@ -394,7 +394,7 @@ class Angles(object):
         -------
         beta : array_like
         """
-        return self.__array[6]
+        return self.array[6]
 
     @property
     def betaDeg(self):
@@ -405,7 +405,7 @@ class Angles(object):
         -------
         betaDeg : array_like
         """
-        return self.__arrayDeg[6]
+        return self.arrayDeg[6]
 
     @property
     def B(self):
@@ -478,7 +478,7 @@ class Angles(object):
         -------
         geometries : tuple
         """
-        geometries = [tuple(self.__array[:, i]) for i in srange(self.shape[1])]
+        geometries = [tuple(self.array[:, i]) for i in srange(self.shape[1])]
         return tuple(geometries)
 
     @property
@@ -490,16 +490,8 @@ class Angles(object):
         -------
         geometriesDeg : tuple
         """
-        geometriesDeg = [tuple(self.__arrayDeg[:, i]) for i in srange(self.shape[1])]
+        geometriesDeg = [tuple(self.arrayDeg[:, i]) for i in srange(self.shape[1])]
         return tuple(geometriesDeg)
-
-    @property
-    def array(self):
-        return self.__array
-
-    @property
-    def arrayDeg(self):
-        return self.__arrayDeg
 
     # ------------------------------------------------------------------------------------------------------------------
     # Property with Setter
@@ -537,8 +529,8 @@ class Angles(object):
 
         self.__dtype = value
 
-        self.__array = self.__change_dtype(self.__array, self.__nbar[0], self.__dtype)
-        self.__arrayDeg = self.__change_dtype(self.__arrayDeg, self.__nbarDeg[0], self.__dtype)
+        self.array = self.__change_dtype(self.array, self.__nbar[0], self.__dtype)
+        self.arrayDeg = self.__change_dtype(self.arrayDeg, self.__nbarDeg[0], self.__dtype)
 
     @property
     def nbar(self):
@@ -570,8 +562,8 @@ class Angles(object):
         self.__nbarDeg = r2d(self.__nbar)
 
         if self.normalize:
-            self.__array[0][-1] = self.__nbar
-            self.__arrayDeg[0][-1] = self.__nbarDeg
+            self.array[0][-1] = self.__nbar
+            self.arrayDeg[0][-1] = self.__nbarDeg
 
     @property
     def nbarDeg(self):
@@ -603,8 +595,8 @@ class Angles(object):
         self.__nbar = d2r(self.__nbarDeg)
 
         if self.normalize:
-            self.__array[0][-1] = self.__nbar
-            self.__arrayDeg[0][-1] = self.__nbarDeg
+            self.array[0][-1] = self.__nbar
+            self.arrayDeg[0][-1] = self.__nbarDeg
 
     @property
     def normalize(self):
@@ -643,16 +635,16 @@ class Angles(object):
                 pass
             else:
                 self.__normalize = value
-                self.__array = self.__normalize_angles(self.__array, self.__nbar[0])
-                self.__arrayDeg = self.__normalize_angles(self.__arrayDeg, self.__nbarDeg[0])
+                self.array = self.__normalize_angles(self.array, self.__nbar[0])
+                self.arrayDeg = self.__normalize_angles(self.arrayDeg, self.__nbarDeg[0])
 
         else:
             if not self.normalize:
                 pass
             else:
                 self.__normalize = value
-                self.__array = self.__denormalize_angles(self.__array)
-                self.__arrayDeg = self.__denormalize_angles(self.__arrayDeg)
+                self.array = self.__denormalize_angles(self.array)
+                self.arrayDeg = self.__denormalize_angles(self.arrayDeg)
 
     # --------------------------------------------------------------------------------------------------------
     # Callable Methods
@@ -677,7 +669,7 @@ class Angles(object):
         effect on the angles within the Angles class.
         """
         # RAD Angles
-        data = [item for item in self.__array]
+        data = [item for item in self.array]
 
         if isinstance(value, (tuple, list)):
             data = tuple(value) + tuple(data, )
@@ -687,7 +679,7 @@ class Angles(object):
         data = align_all(data)
 
         # DEG Angles
-        dataDeg = [item for item in self.__arrayDeg]
+        dataDeg = [item for item in self.arrayDeg]
 
         if isinstance(value, (tuple, list)):
             dataDeg = tuple(value) + tuple(dataDeg, )
@@ -696,8 +688,8 @@ class Angles(object):
 
         dataDeg = align_all(dataDeg)
 
-        self.__array = np.asarray(data[-7:])
-        self.__arrayDeg = np.asarray(dataDeg[-7:])
+        self.array = np.asarray(data[-7:])
+        self.arrayDeg = np.asarray(dataDeg[-7:])
 
         return data[0:-7]
 
