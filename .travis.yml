@@ -25,4 +25,4 @@ script:
   - coverage run --source rspy/ -m pytest
 
 after_success:
-  - coveralls
+  - coveralls --exclude test
