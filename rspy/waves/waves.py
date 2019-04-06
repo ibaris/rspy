@@ -7,7 +7,9 @@ from __future__ import division
 import numpy as np
 
 import rspy.constants as const
-from rspy import Units, UnitError, align_all
+from rspy.units import Units
+from rspy.auxiliary import UnitError
+from rspy.ancillary import align_all
 
 __all__ = ['Waves']
 
@@ -110,7 +112,8 @@ class Waves(object):
         # Additional Calculation ---------------------------------------------------------------------------------------
         self.__wavenumber = Waves.compute_wavenumber(self.__frequency, self.__frequency_unit,
                                                      output=self.__wavelength_unit)
-        self.__value = np.array([self.__frequency, self.__wavelength, self.__wavenumber])
+
+        self.values = np.array([self.__frequency, self.__wavelength, self.__wavenumber])
 
         self.__region = None
         self.__band = None
@@ -190,7 +193,7 @@ class Waves(object):
 
     @property
     def frequency(self):
-        return self.__frequency
+        return self.values[0,]
 
     @property
     def frequency_unit(self):
@@ -198,7 +201,7 @@ class Waves(object):
 
     @property
     def wavelength(self):
-        return self.__wavelength
+        return self.values[1,]
 
     @property
     def wavelength_unit(self):
@@ -206,7 +209,7 @@ class Waves(object):
 
     @property
     def wavenumber(self):
-        return self.__wavenumber
+        return self.values[2,]
 
     @property
     def wavenumber_unit(self):
@@ -235,9 +238,8 @@ class Waves(object):
         effect on the angles within the Angles class.
         """
         # RAD Angles
-        self_value = np.array([self.frequency, self.wavelength, self.wavenumber])
 
-        data = [item for item in self_value]
+        data = [item for item in self.values]
 
         if isinstance(value, (tuple, list)):
             data = tuple(value) + tuple(data, )
@@ -246,9 +248,7 @@ class Waves(object):
 
         data = align_all(data)
 
-        self.__frequency = data[-3]
-        self.__wavelength = data[-2]
-        self.__wavenumber = data[-1]
+        self.values = np.asarray(data[-3:])
 
         return data[0:-3]
 
