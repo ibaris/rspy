@@ -90,8 +90,12 @@ class TestSatellites:
         with pytest.raises(AssertionError):
             A = S.Aster(test_values)
 
+            assert A == 0
+
         with pytest.raises(AssertionError):
             A = S.L8(test_values)
+
+            assert A == 0
 
     def test_L_ndvi(self):
         test_values = optical_range
@@ -108,18 +112,18 @@ class TestSatellites:
         assert np.allclose(ndvi, ndvi2)
 
         with pytest.raises(ValueError):
-            S.ndvi()
+            assert S.ndvi()
 
         with pytest.raises(TypeError):
-            S.ndvi(sensor='kaka')
+            assert S.ndvi(sensor='kaka')
 
         with pytest.raises(AssertionError):
             sensor = {'pipi': 'kaka'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
 
         with pytest.raises(AssertionError):
             sensor = {'name': 'mumu'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
 
     def test_A_ndvi(self):
         test_values = optical_range
@@ -136,18 +140,18 @@ class TestSatellites:
         assert np.allclose(ndvi, ndvi2)
 
         with pytest.raises(ValueError):
-            S.ndvi()
+            assert S.ndvi()
 
         with pytest.raises(TypeError):
-            S.ndvi(sensor='kaka')
+            assert S.ndvi(sensor='kaka')
 
         with pytest.raises(AssertionError):
             sensor = {'pipi': 'kaka'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
 
         with pytest.raises(AssertionError):
             sensor = {'name': 'mumu'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
 
     def test_L_sr(self):
         test_values = optical_range
@@ -164,18 +168,18 @@ class TestSatellites:
         assert np.allclose(ndvi, ndvi2)
 
         with pytest.raises(ValueError):
-            S.ndvi()
+            assert S.ndvi()
 
         with pytest.raises(TypeError):
-            S.ndvi(sensor='kaka')
+            assert S.ndvi(sensor='kaka')
 
         with pytest.raises(AssertionError):
             sensor = {'pipi': 'kaka'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
 
         with pytest.raises(AssertionError):
             sensor = {'name': 'mumu'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
 
     def test_A_sr(self):
         test_values = optical_range
@@ -192,15 +196,15 @@ class TestSatellites:
         assert np.allclose(ndvi, ndvi2)
 
         with pytest.raises(ValueError):
-            S.ndvi()
+            assert S.ndvi()
 
         with pytest.raises(TypeError):
-            S.ndvi(sensor='kaka')
+            assert S.ndvi(sensor='kaka')
 
         with pytest.raises(AssertionError):
             sensor = {'pipi': 'kaka'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
 
         with pytest.raises(AssertionError):
             sensor = {'name': 'mumu'}
-            S.ndvi(sensor=sensor)
+            assert S.ndvi(sensor=sensor)
