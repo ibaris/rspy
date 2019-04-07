@@ -33,6 +33,7 @@ class TestAllDicts:
 
             with pytest.raises(AttributeError):
                 p = a_item.b
+                return p
 
     def test_dicts_dir(self):
         for item in dicts:
