@@ -10,7 +10,7 @@ import rspy.constants as const
 from rspy.ancillary import d2r
 from rspy.auxiliary import check_angle_unit
 from rspy.auxiliary.types import __UNIT_RAD__, __UNIT_DEG__
-from rspy.intensity import dB, linear
+from rspy.intensity.utility import dB, linear
 
 __all__ = ['Intensity']
 
@@ -77,8 +77,8 @@ class Intensity(object):
             self.BRF = Intensity.BRDF_to_BRF(value)
 
             if vza is not None:
-                self.BSC = Intensity.BRDF_to_BSC(value, vza, self.angle_unit)
-                self.BSCdB = dB(Intensity.BRDF_to_BSC(value, vza, self.angle_unit))
+                self.BSC = Intensity.BRDF_to_BSC(self.I, vza, self.angle_unit)
+                self.BSCdB = dB(Intensity.BRDF_to_BSC(self.I, vza, self.angle_unit))
 
             else:
                 self.BSC = np.zeros_like(value)
@@ -89,7 +89,7 @@ class Intensity(object):
             self.BSCdB = dB(value)
 
             if vza is not None:
-                self.I = Intensity.BSC_to_BRDF(value, vza, self.angle_unit)
+                self.I = Intensity.BSC_to_BRDF(self.BSC, vza, self.angle_unit)
                 self.BRF = Intensity.BRDF_to_BRF(self.I)
             else:
                 self.I = np.zeros_like(value)
@@ -100,7 +100,7 @@ class Intensity(object):
             self.BSC = linear(value)
 
             if vza is not None:
-                self.I = Intensity.BSC_to_BRDF(value, vza, self.angle_unit)
+                self.I = Intensity.BSC_to_BRDF(self.BSC, vza, self.angle_unit)
                 self.BRF = Intensity.BRDF_to_BRF(self.I)
             else:
                 self.I = np.zeros_like(value)
@@ -111,8 +111,8 @@ class Intensity(object):
             self.I = value / const.pi
 
             if vza is not None:
-                self.BSC = Intensity.BRDF_to_BSC(value, vza, self.angle_unit)
-                self.BSCdB = dB(Intensity.BRDF_to_BSC(value, vza, self.angle_unit))
+                self.BSC = Intensity.BRDF_to_BSC(self.I, vza, self.angle_unit)
+                self.BSCdB = dB(Intensity.BRDF_to_BSC(self.I, vza, self.angle_unit))
 
             else:
                 self.BSC = np.zeros_like(value)
