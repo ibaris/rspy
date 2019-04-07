@@ -32,7 +32,7 @@ class TestAllDicts:
             a_item = item(a=a)
 
             with pytest.raises(AttributeError):
-                a_item.b
+                p = a_item.b
 
     def test_dicts_dir(self):
         for item in dicts:
