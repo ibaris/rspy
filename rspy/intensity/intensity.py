@@ -72,7 +72,7 @@ class Intensity(object):
 
         value = np.asarray(value).flatten()
 
-        if self.value_unit is "BRDF":
+        if self.value_unit == "BRDF":
             self.I = value
             self.BRF = Intensity.BRDF_to_BRF(value)
 
@@ -84,7 +84,7 @@ class Intensity(object):
                 self.BSC = np.zeros_like(value)
                 self.BSCdB = np.zeros_like(value)
 
-        elif self.value_unit is "BSC":
+        elif self.value_unit == "BSC":
             self.BSC = value
             self.BSCdB = dB(value)
 
@@ -95,7 +95,7 @@ class Intensity(object):
                 self.I = np.zeros_like(value)
                 self.BRF = np.zeros_like(value)
 
-        elif self.value_unit is "BSCdB":
+        elif self.value_unit == "BSCdB":
             self.BSCdB = value
             self.BSC = linear(value)
 
@@ -106,7 +106,7 @@ class Intensity(object):
                 self.I = np.zeros_like(value)
                 self.BRF = np.zeros_like(value)
 
-        elif self.value_unit is "BRF":
+        elif self.value_unit == "BRF":
             self.BRF = value
             self.I = value / const.pi
 
