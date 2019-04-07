@@ -1,0 +1,135 @@
+# -*- coding: utf-8 -*-
+"""
+Created on 07.04.19 by ibaris
+"""
+from __future__ import division
+
+import numpy as np
+import pytest
+
+from rspy.ancillary import *
+from rspy.intensity import *
+
+n = 50
+
+
+class TestBRFBRDF:
+    def test_BRF(self):
+        for x in range(n):
+            BRDF = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BRDF, value_unit="BRDF")
+
+            assert np.allclose(I.BRF, BRDF * np.pi)
+            assert np.allclose(I.I, BRDF)
+            assert np.allclose(I.BSC, 0)
+            assert np.allclose(I.BSCdB, 0)
+            assert I.keys() == ['I', 'BRF', 'BSCdB', 'BSC']
+
+    def test_BRDF(self):
+        for x in range(n):
+            BRF = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BRF, value_unit="BRF")
+
+            assert np.allclose(I.BRF, BRF)
+            assert np.allclose(I.I, BRF / np.pi)
+            assert np.allclose(I.BSC, 0)
+            assert np.allclose(I.BSCdB, 0)
+
+    def test_exc(self):
+        BRF = np.random.uniform(0.00001, 0.1, n)
+        with pytest.raises(ValueError):
+            assert Intensity(BRF, value_unit="mukmuk")
+
+
+class TestBSC:
+    def test_BSCDEG(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            BRDF = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BRDF, value_unit="BRDF", vza=vza, angle_unit='DEG')
+
+            assert np.allclose(I.BRF, BRDF * np.pi)
+            assert np.allclose(I.I, BRDF)
+            assert np.allclose(I.BSC, BRDF * np.cos(d2r(vza)) * 4 * np.pi)
+            assert np.allclose(I.BSCdB, dB(BRDF * np.cos(d2r(vza)) * 4 * np.pi))
+
+    def test_BSCRAD(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            vza = d2r(vza)
+
+            BRDF = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BRDF, value_unit="BRDF", vza=vza, angle_unit='RAD')
+
+            assert np.allclose(I.BRF, BRDF * np.pi)
+            assert np.allclose(I.I, BRDF)
+            assert np.allclose(I.BSC, BRDF * np.cos(vza) * 4 * np.pi)
+            assert np.allclose(I.BSCdB, dB(BRDF * np.cos(vza) * 4 * np.pi))
+
+
+class TestBSCINPUT:
+    def test_BSCDEG(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            BSC = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BSC, value_unit="BSC", vza=vza, angle_unit='DEG')
+
+            assert np.allclose(I.BSC, BSC)
+            assert np.allclose(I.I, BSC / (np.cos(d2r(vza)) * (4 * np.pi)))
+
+    def test_BSCRAD(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            vza = d2r(vza)
+            BSC = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BSC, value_unit="BSC", vza=vza, angle_unit='RAD')
+
+            assert np.allclose(I.BSC, BSC)
+            assert np.allclose(I.BSCdB, dB(BSC))
+            assert np.allclose(I.I, BSC / (np.cos(vza) * (4 * np.pi)))
+            assert np.allclose(I.BRF, I.I * np.pi)
+
+
+class TestBSCdBINPUT:
+    def test_BSCDEG(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            BSC = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(dB(BSC), value_unit="BSCdB", vza=vza, angle_unit='DEG')
+
+            assert np.allclose(I.BSC, linear(dB(BSC)))
+            assert np.allclose(I.I, I.BSC / (np.cos(d2r(vza)) * (4 * np.pi)))
+            assert np.allclose(I.BRF, I.I * np.pi)
+
+    def test_BSCRAD(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            vza = d2r(vza)
+            BSC = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BSC, value_unit="BSC", vza=vza, angle_unit='RAD')
+
+            assert np.allclose(I.BSC, BSC)
+            assert np.allclose(I.I, BSC / (np.cos(vza) * (4 * np.pi)))
+            assert np.allclose(I.BRF, I.I * np.pi)
+
+
+class TestBRFBRDF:
+    def test_BRF(self):
+        for x in range(n):
+            BRDF = np.random.uniform(0.00001, 0.1, 1)
+            I = Intensity(BRDF, value_unit="BRDF")
+
+            vals = [BRDF, BRDF * np.pi, np.zeros(1), np.zeros(1)]
+
+            assert I.keys() == ['I', 'BRF', 'BSCdB', 'BSC']
+            assert dir(I) == ['BRF', 'BSC', 'BSCdB', 'I']
+            assert I.values() == vals
+            assert I[0] == BRDF
+            assert I[1] == BRDF * np.pi
+            assert I[2] == np.zeros(1)
+            assert I[3] == np.zeros(1)
+
+            assert I['I'] == BRDF
+            assert I['BRF'] == BRDF * np.pi
+            assert I['BSC'] == np.zeros(1)
+            assert I['BSCdB'] == np.zeros(1)
