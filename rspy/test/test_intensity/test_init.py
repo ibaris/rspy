@@ -121,8 +121,17 @@ class TestBRFBRDF:
 
             vals = [BRDF, BRDF * np.pi, np.zeros(1), np.zeros(1)]
 
-            assert I.keys() == ['I', 'BRF', 'BSCdB', 'BSC']
-            assert dir(I) == ['BRF', 'BSC', 'BSCdB', 'I']
+            assert 'I' in I.keys()
+            assert 'BRF' in I.keys()
+            assert 'BSCdB' in I.keys()
+            assert 'BSC' in dir(I)
+            assert 'I' in dir(I)
+            assert 'BRF' in dir(I)
+            assert 'BSCdB' in dir(I)
+            assert 'BSC' in dir(I)
+            assert len(dir(I)) == 4
+            assert len(I.keys()) == 4
+
             assert I.values() == vals
             assert I[0] == BRDF
             assert I[1] == BRDF * np.pi
