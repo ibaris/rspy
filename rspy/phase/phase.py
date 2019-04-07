@@ -8,6 +8,8 @@ import numpy as np
 
 from rspy.angles import Angles
 
+__all__ = ['Phase']
+
 
 class Phase(Angles):
     """

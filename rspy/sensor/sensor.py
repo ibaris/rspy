@@ -13,6 +13,8 @@ from rspy.sensor.auxiliary import SensorResult
 from rspy.units import Units
 from rspy.waves import Waves
 
+__all__ = ['Sensor']
+
 
 class Sensor(Angles, Waves):
     """
