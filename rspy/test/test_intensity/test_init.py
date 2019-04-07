@@ -132,7 +132,7 @@ class TestBRFBRDF:
             assert len(dir(I)) == 4
             assert len(I.keys()) == 4
 
-            assert I.values() == vals
+            assert np.allclose(I.values(), vals)
             assert I[0] == BRDF
             assert I[1] == BRDF * np.pi
             assert I[2] == np.zeros(1)
