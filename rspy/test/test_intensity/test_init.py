@@ -35,6 +35,16 @@ class TestBRFBRDF:
             assert np.allclose(I.BSC, 0)
             assert np.allclose(I.BSCdB, 0)
 
+    def test_BRDF_ndim3(self):
+        for x in range(n):
+            BRF = np.random.uniform(0.00001, 0.1, (n, 5, 5))
+            I = Intensity(BRF, value_unit="BRF")
+
+            assert np.allclose(I.BRF, BRF)
+            assert np.allclose(I.I, BRF / np.pi)
+            assert np.allclose(I.BSC, 0)
+            assert np.allclose(I.BSCdB, 0)
+
     def test_exc(self):
         BRF = np.random.uniform(0.00001, 0.1, n)
         with pytest.raises(ValueError):
@@ -52,6 +62,31 @@ class TestBSC:
             assert np.allclose(I.I, BRDF)
             assert np.allclose(I.BSC, BRDF * np.cos(d2r(vza)) * 4 * np.pi)
             assert np.allclose(I.BSCdB, dB(BRDF * np.cos(d2r(vza)) * 4 * np.pi))
+
+    def test_BSCDEG_ndim3(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            BRDF = np.random.uniform(0.00001, 0.1, (n, 5, 5))
+            I = Intensity(BRDF, value_unit="BRDF", vza=vza, angle_unit='DEG')
+
+            BSC_ref = np.empty_like(BRDF)
+
+            for i in range(BSC_ref.shape[0]):
+                BSC_ref[i] = BRDF[i] * np.cos(d2r(vza[i])) * 4 * np.pi
+
+            assert np.allclose(I.BRF, BRDF * np.pi)
+            assert np.allclose(I.I, BRDF)
+            assert np.allclose(I.BSC, BSC_ref)
+            assert np.allclose(I.BSCdB, dB(BSC_ref))
+
+    def test_BSCDEG_ndim3_exec(self):
+        for x in range(n):
+            vza = np.random.uniform(10, 50, n)
+            BRDF = np.random.uniform(0.00001, 0.1, (n+1, 5, 5))
+
+            with pytest.raises(AssertionError):
+                I = Intensity(BRDF, value_unit="BRDF", vza=vza, angle_unit='DEG')
+
 
     def test_BSCRAD(self):
         for x in range(n):
