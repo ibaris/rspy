@@ -70,7 +70,8 @@ class Intensity(object):
                                                                         str(__UNIT_DEG__),
                                                                         str(angle_unit)))
 
-        value = np.asarray(value).flatten()
+        value = np.asarray(value)
+        value = np.atleast_1d(value)
 
         if self.value_unit == "BRDF":
             self.I = value
@@ -217,10 +218,26 @@ class Intensity(object):
                                                                         str(__UNIT_DEG__),
                                                                         str(angle_unit)))
 
-        if angle_unit in __UNIT_RAD__:
-            return BSC / (np.cos(vza) * (4 * const.pi))
+        vza = np.asarray(vza)
+        vza = np.atleast_1d(vza)
 
-        return BSC / (np.cos(d2r(vza)) * (4 * const.pi))
+        if angle_unit in __UNIT_RAD__:
+            mu = np.cos(vza)
+        else:
+            mu = np.cos(d2r(vza))
+
+        if BSC.ndim != vza.ndim:
+            if BSC.shape[0] == vza.shape[0]:
+                BRDF = np.empty_like(BSC)
+
+                for i in range(BSC.shape[0]):
+                    BRDF[i] = BSC[i] / (mu[i] * (4 * const.pi))
+
+                return BRDF
+            else:
+                raise AssertionError("Inputs must have the same length.")
+
+        return BSC / (mu * (4 * const.pi))
 
     @staticmethod
     def BRDF_to_BSC(BRDF, vza, angle_unit='RAD'):
@@ -253,11 +270,26 @@ class Intensity(object):
                              "but the actual angle_unit is: {2}".format(str(__UNIT_RAD__),
                                                                         str(__UNIT_DEG__),
                                                                         str(angle_unit)))
+        vza = np.asarray(vza)
+        vza = np.atleast_1d(vza)
 
         if angle_unit in __UNIT_RAD__:
-            return BRDF * np.cos(vza) * 4 * const.pi
+            mu = np.cos(vza)
+        else:
+            mu = np.cos(d2r(vza))
 
-        return BRDF * np.cos(d2r(vza)) * 4 * const.pi
+        if BRDF.ndim != vza.ndim:
+            if BRDF.shape[0] == vza.shape[0]:
+                BSC = np.empty_like(BRDF)
+
+                for i in range(BSC.shape[0]):
+                    BSC[i] = BRDF[i] * mu[i] * 4 * const.pi
+
+                return BSC
+            else:
+                raise AssertionError("Inputs must have the same length.")
+
+        return BRDF * mu * 4 * const.pi
 
     def keys(self):
         return self.dict.keys()
