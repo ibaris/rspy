@@ -12,6 +12,7 @@ from rspy.intensity import *
 
 n = 50
 
+
 class TestErrors:
     def test1(self):
         for x in range(n):
