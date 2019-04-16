@@ -103,6 +103,15 @@ class TestBSC:
 
 
 class TestBSCINPUT:
+    def test_BSCNoVZA(self):
+        for x in range(n):
+            BSC = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(BSC, value_unit="BSC")
+
+            assert np.allclose(I.BSC, BSC)
+            assert np.allclose(I.I, np.zeros_like(I.BSC))
+            assert np.allclose(I.BRF, np.zeros_like(I.BSC))
+
     def test_BSCDEG(self):
         for x in range(n):
             vza = np.random.uniform(10, 50, n)
@@ -126,6 +135,16 @@ class TestBSCINPUT:
 
 
 class TestBSCdBINPUT:
+    def test_BSCDEGNoVZA(self):
+        for x in range(n):
+            BSC = np.random.uniform(0.00001, 0.1, n)
+            I = Intensity(dB(BSC), value_unit="BSCdB")
+
+            assert np.allclose(I.BSC, BSC)
+            assert np.allclose(I.BSCdB, dB(BSC))
+            assert np.allclose(I.I, np.zeros_like(I.BSC))
+            assert np.allclose(I.BRF, np.zeros_like(I.BSC))
+
     def test_BSCDEG(self):
         for x in range(n):
             vza = np.random.uniform(10, 50, n)
