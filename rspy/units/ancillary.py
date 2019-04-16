@@ -293,9 +293,37 @@ class Units(dict):
 
         elif hasattr(to_unit, 'dimension') and hasattr(unit, 'dimension'):
             if to_unit.dimension == unit.dimension:
-                scaled_value = value * Units[str(to_unit.dimension.name)][str(unit)].scale_factor
 
-                value = scaled_value / Units[str(to_unit.dimension.name)][str(to_unit)].scale_factor
+                # Convert tempretures
+                if unit.dimension == Units.dimensions['temperature']:
+
+                    # From Celsius to other Units.
+                    if unit == Units.temperature.celsius:
+                        if to_unit == Units.temperature.kelvin:
+                            value = value + unit.scale_factor
+
+                        if to_unit == Units.temperature.fahrenheit:
+                            value = value * 9. / 5. + 32
+
+                    # From Kelvin to other Units.
+                    if unit == Units.temperature.kelvin:
+                        if to_unit == Units.temperature.celsius:
+                            value = value - to_unit.scale_factor
+
+                        if to_unit == Units.temperature.fahrenheit:
+                            value = value * to_unit.scale_factor - 459.67
+
+                    # From Fahrenheit to other Units.
+                    if unit == Units.temperature.fahrenheit:
+                        if to_unit == Units.temperature.celsius:
+                            value = (value - 32) / unit.scale_factor
+                        if to_unit == Units.temperature.kelvin:
+                            value = (value + 459.67) * 5./9.
+
+                else:
+                    scaled_value = value * Units[str(to_unit.dimension.name)][str(unit)].scale_factor
+
+                    value = scaled_value / Units[str(to_unit.dimension.name)][str(to_unit)].scale_factor
 
                 return np.atleast_1d(np.asarray(value, dtype=np.double))
 

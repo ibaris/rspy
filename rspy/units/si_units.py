@@ -18,7 +18,7 @@ __all__ = ['deg', 'degree', 'degrees', 'rad', 'radian', 'radians', 'decibel', 'd
            'decimeter', 'm', 'meters', 'meter', 'km', 'kilometers', 'kilometer', 's', 'second', 'seconds', 'minute',
            'minutes', 'h', 'hour', 'hours', 'K', 'kelvins', 'kelvin', 'J', 'joules', 'joule', 'W', 'watt',
            'watts', 'milligram', 'milligrams', 'mg', 'microgram', 'micrograms', 'ug', 'gram', 'grams', 'g',
-           'kilogram', 'kilograms', 'kg', 'ampere', 'amperes', 'A', 'One', 'linear']
+           'kilogram', 'kilograms', 'kg', 'ampere', 'amperes', 'A', 'One', 'linear', 'celsius', 'fahrenheit']
 
 One = S.One
 
@@ -91,6 +91,14 @@ h = hour = hours = sympy_units.hour
 
 K = kelvins = kelvin = sympy_units.K
 
+celsius = sQuantity("celsius")
+celsius.set_dimension(dimensions.temperature)
+celsius.set_scale_factor(273.15)
+
+fahrenheit = sQuantity("fahrenheit")
+fahrenheit.set_dimension(dimensions.temperature)
+fahrenheit.set_scale_factor((9./5.))
+
 J = joules = joule = sympy_units.J
 
 W = watt = watts = sympy_units.watt
@@ -110,7 +118,7 @@ __unit__ = ['deg', 'degree', 'degrees', 'rad', 'radian', 'radians', 'decibel', '
             'decimeter', 'm', 'meters', 'meter', 'km', 'kilometers', 'kilometer', 's', 'second', 'seconds', 'minute',
             'minutes', 'h', 'hour', 'hours', 'K', 'kelvins', 'kelvin', 'J', 'joules', 'joule', 'W', 'watt',
             'watts', 'milligram', 'milligrams', 'mg', 'microgram', 'micrograms', 'ug', 'gram', 'grams', 'g',
-            'kilogram', 'kilograms', 'kg', 'ampere', 'amperes', 'A', 'linear']
+            'kilogram', 'kilograms', 'kg', 'ampere', 'amperes', 'A', 'linear', 'celsius', 'fahrenheit']
 
 __values__ = [deg, degree, degrees, rad, radian, radians, decibel, dB, millihertz, mhz, mHz,
               centihertz, chz, cHz, decihertz, dhz, dHz, hertz, hz, Hz, decahertz, dahz, daHz,
@@ -120,4 +128,4 @@ __values__ = [deg, degree, degrees, rad, radian, radians, decibel, dB, millihert
               decimeter, m, meters, meter, km, kilometers, kilometer, s, second, seconds, minute,
               minutes, h, hour, hours, K, kelvins, kelvin, J, joules, joule, W, watt,
               watts, milligram, milligrams, mg, microgram, micrograms, ug, gram, grams, g,
-              kilogram, kilograms, kg, ampere, amperes, A, linear]
+              kilogram, kilograms, kg, ampere, amperes, A, linear, celsius, fahrenheit]
