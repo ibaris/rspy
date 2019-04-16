@@ -112,6 +112,7 @@ class TestBothDimensions:
 
                 assert np.allclose(sympy_result, rspy_conversion)
 
+
 class TestCycle:
     def test_hz_cycle_unit1(self):
         values = np.random.uniform(0.1, 500, 100)
@@ -150,3 +151,63 @@ class TestCycle:
             rspy_conversion = Units.convert_to(values[j], unit1, unit2).round(4)
 
             assert np.allclose(sympy_result, rspy_conversion)
+
+
+class TestTempreture:
+    def from_kelvin(self):
+        reference_to_celsius = {300: 26.85,
+                                125: -148.15,
+                                671: 397.85,
+                                314: 40.85,
+                                436: 162.85}
+
+        reference_to_fahrenheit = {300: 80.33,
+                                   125: -234.67,
+                                   671: 748.13,
+                                   314: 105.53,
+                                   436: 325.13}
+
+        for item in reference_to_celsius.keys():
+            assert np.allclose(reference_to_celsius[item], Units.convert_to(item, 'K', 'celsius'))
+
+        for item in reference_to_fahrenheit.keys():
+            assert np.allclose(reference_to_fahrenheit[item], Units.convert_to(item, 'K', 'fahrenheit'))
+
+    def from_celsius(self):
+        reference_to_kelvin = {26.85: 300,
+                               -148.15: 125,
+                               397.85: 671,
+                               40.85: 314,
+                               162.85: 436}
+
+        reference_to_fahrenheit = {26.85: 80.33,
+                                   -148.15: -234.67,
+                                   397.85: 748.13,
+                                   40.85: 105.53,
+                                   162.85: 325.13}
+
+        for item in reference_to_kelvin.keys():
+            assert np.allclose(reference_to_kelvin[item], Units.convert_to(item, 'celsius', 'K'))
+
+        for item in reference_to_fahrenheit.keys():
+            assert np.allclose(reference_to_fahrenheit[item], Units.convert_to(item, 'celsius', 'fahrenheit'))
+
+    def from_fahrenheit(self):
+
+        reference_to_celsius = {80.33: 26.85,
+                                -234.67: -148.15,
+                                748.13: 397.85,
+                                105.53: 40.85,
+                                325.13: 162.85}
+
+        reference_to_kelvin = {80.33: 300,
+                               -234.67: 125,
+                               748.13: 671,
+                               105.53: 314,
+                               325.13: 436}
+
+        for item in reference_to_celsius.keys():
+            assert np.allclose(reference_to_celsius[item], Units.convert_to(item, 'fahrenheit', 'celsius'))
+
+        for item in reference_to_kelvin.keys():
+            assert np.allclose(reference_to_kelvin[item], Units.convert_to(item, 'fahrenheit', 'K'))
