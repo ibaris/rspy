@@ -62,4 +62,4 @@ class TestAttributes:
 
         lens -= len(Units.dimensions)  # Unit class has 11 dimensions, which contributes to length.
 
-        assert len(Units.units) == lens + 1
+        assert len(Units.units) == lens + 3
