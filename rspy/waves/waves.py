@@ -7,9 +7,9 @@ from __future__ import division
 import numpy as np
 
 import rspy.constants as const
-from rspy.units import Units
-from rspy.auxiliary import UnitError
 from rspy.ancillary import align_all
+from rspy.auxiliary import UnitError
+from rspy.units.ancillary import Units
 
 __all__ = ['Waves']
 
@@ -270,15 +270,9 @@ class Waves(object):
         Returns
         -------
         frequency: float, np.ndarray or respy.units.quantity.Quantity
-
         """
-        unit = Units.get_unit(unit)
-        output = Units.get_unit(output)
 
-        c = Units.convert_to(const.c, 'm / s', unit / Units.time.s)
-        f = c / wavelength
-
-        return Units.convert_to(f, 'Hz', output)
+        return Units.convert_to(wavelength, unit, output)
 
     @staticmethod
     def compute_wavelength(frequency, unit='GHz', output='cm'):
@@ -299,14 +293,7 @@ class Waves(object):
         -------
         Wavelength: float, np.ndarray or respy.units.quantity.Quantity
         """
-        unit = Units.get_unit(unit)
-        output = Units.get_unit(output)
-
-        frequency = Units.convert_to(frequency, unit, '1 / s')
-
-        w = const.c / frequency
-
-        return Units.convert_to(w, 'm', output)
+        return Units.convert_to(frequency, unit, output)
 
     @staticmethod
     def compute_wavenumber(frequency, unit='GHz', output='cm'):
@@ -327,4 +314,4 @@ class Waves(object):
         -------
         wavenumber: float, np.ndarray or respy.units.quantity.Quantity
         """
-        return 2 * const.pi / Waves.compute_wavelength(frequency, unit=unit, output=output)
+        return 2 * const.pi / Units.convert_to(frequency, unit, output)
