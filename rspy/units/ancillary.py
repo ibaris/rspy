@@ -6,6 +6,7 @@ from __future__ import division
 
 import numpy as np
 
+import rspy.constants as const
 from rspy.auxiliary import Operator, UnitError
 from rspy.bin.bin_units import sym_convert_to
 from rspy.units.auxiliary import (Frequency, Length, Energy, Power, Time, Temperature, Mass, Current, Other,
@@ -71,6 +72,9 @@ class Units(dict):
 
         self.__setup_units()
 
+    # --------------------------------------------------------------------------------------------------------
+    # Magic Methods
+    # --------------------------------------------------------------------------------------------------------
     def __getattr__(self, name):
         try:
             return self[name]
@@ -91,25 +95,9 @@ class Units(dict):
     def __dir__(self):
         return list(self.keys())
 
-    def __setup_units(self):
-        """
-        Setup Unit class with all available units and dimensions.
-
-        Returns
-        -------
-        None
-        """
-        for item in self.units.keys():
-            dimension = self.units[item].dimension.name
-
-            if dim_isnone(self.units[item]) or dim_isone(self.units[item]) or dim_iszero(self.units[item]):
-                self.__unit_dict['other'][str(item)] = self.units[item]
-            else:
-                self.__unit_dict[str(dimension)][str(item)] = self.units[item]
-
-        for item in self.__unit_dict.keys():
-            self[item] = self.__unit_dict[item]
-
+    # --------------------------------------------------------------------------------------------------------
+    # Callable Methods
+    # --------------------------------------------------------------------------------------------------------
     @staticmethod
     def unit_isnone(unit):
         """
@@ -267,8 +255,7 @@ class Units(dict):
         else:
             raise UnitError("{} is not a valid unit.".format(str(unit)))
 
-    @staticmethod
-    def convert_to(value, unit, to_unit):
+    def convert_to(self, value, unit, to_unit):
 
         if isinstance(unit, str):
             unit = Units.str2unit(unit)
@@ -293,7 +280,6 @@ class Units(dict):
 
         elif hasattr(to_unit, 'dimension') and hasattr(unit, 'dimension'):
             if to_unit.dimension == unit.dimension:
-
                 # Convert tempretures
                 if unit.dimension == Units.dimensions['temperature']:
 
@@ -318,7 +304,7 @@ class Units(dict):
                         if to_unit == Units.temperature.celsius:
                             value = (value - 32) / unit.scale_factor
                         if to_unit == Units.temperature.kelvin:
-                            value = (value + 459.67) * 5./9.
+                            value = (value + 459.67) * 5. / 9.
 
                 else:
                     scaled_value = value * Units[str(to_unit.dimension.name)][str(unit)].scale_factor
@@ -326,6 +312,12 @@ class Units(dict):
                     value = scaled_value / Units[str(to_unit.dimension.name)][str(to_unit)].scale_factor
 
                 return np.atleast_1d(np.asarray(value, dtype=np.double))
+
+            if unit.dimension == Units.dimensions['length'] and to_unit.dimension == Units.dimensions['frequency']:
+                return np.atleast_1d(self.__convert_wavelength(value, unit, to_unit))
+
+            if unit.dimension == Units.dimensions['frequency'] and to_unit.dimension == Units.dimensions['length']:
+                return np.atleast_1d(self.__convert_frequency(value, unit, to_unit))
 
         if isinstance(value, np.ndarray):
             shape = value.shape
@@ -340,6 +332,82 @@ class Units(dict):
             expr = value * unit
 
         return sym_convert_to(expr, to_unit).base
+
+    # --------------------------------------------------------------------------------------------------------
+    # Private Methods
+    # --------------------------------------------------------------------------------------------------------
+    def __convert_wavelength(self, wavelength, unit='cm', output='GHz'):
+        """
+        Convert wavelengths in frequencies.
+
+        Parameters
+        ----------
+        wavelength : int, float, np.ndarray, object
+            Wavelength as int, float, numpy.ndarray or as a respy.units.quantity.Quantity object.
+        unit : str, object
+            Unit of the wavelength (default is 'cm'). See respy.units.Units.length.keys() for available units.
+            This is optional if the input is an respy.units.quantity.Quantity object.
+        output : str, object
+            Unit of entered frequency (default is 'GHz'). See respy.units.Units.frequency.keys() for available units.
+
+        Returns
+        -------
+        frequency: float, np.ndarray or respy.units.quantity.Quantity
+
+        """
+        unit = Units.get_unit(unit)
+        output = Units.get_unit(output)
+
+        c = Units.convert_to(const.c, 'm / s', unit / Units.time.s)
+        f = c / wavelength
+
+        return Units.convert_to(f, 'Hz', output)
+
+    def __convert_frequency(self, frequency, unit='GHz', output='cm'):
+        """
+        Convert frequencies in wavelength.
+
+        Parameters
+        ----------
+        frequency : int, float, np.ndarray, object
+            Frequency as int, float, numpy.ndarray or as a respy.units.quantity.Quantity object.
+        unit : str, object
+            Unit of entered frequency (default is 'GHz'). See respy.units.Units.frequency.keys() for available units.
+            This is optional if the input is an respy.units.quantity.Quantity object.
+        output : str, object
+            Unit of the wavelength (default is 'cm'). See respy.units.Units.length.keys() for available units.
+
+        Returns
+        -------
+        Wavelength: float, np.ndarray or respy.units.quantity.Quantity
+        """
+        unit = Units.get_unit(unit)
+        output = Units.get_unit(output)
+
+        frequency = Units.convert_to(frequency, unit, '1 / s')
+
+        w = const.c / frequency
+
+        return Units.convert_to(w, 'm', output)
+
+    def __setup_units(self):
+        """
+        Setup Unit class with all available units and dimensions.
+
+        Returns
+        -------
+        None
+        """
+        for item in self.units.keys():
+            dimension = self.units[item].dimension.name
+
+            if dim_isnone(self.units[item]) or dim_isone(self.units[item]) or dim_iszero(self.units[item]):
+                self.__unit_dict['other'][str(item)] = self.units[item]
+            else:
+                self.__unit_dict[str(dimension)][str(item)] = self.units[item]
+
+        for item in self.__unit_dict.keys():
+            self[item] = self.__unit_dict[item]
 
 
 Units = Units()
